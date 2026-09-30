@@ -1,6 +1,7 @@
-# 🎓 Guia de Estudos: Desenvolvimento Seguro de Agentes de IA com ADK 2.0 e Pre-Commit Gating
+# 🎓 Guia de Estudos: Vibecode and Secure an AI Agent Lifecycle with Antigravity and TDD
 
-Este guia reúne os conceitos, arquiteturas e práticas de segurança implementados durante o desenvolvimento do projeto **`shopping-assistant`**.
+Este guia reúne os conceitos, arquiteturas e práticas de segurança implementados no laboratório **Vibecode and Secure an AI Agent Lifecycle with Antigravity and TDD** durante a construção e proteção do projeto **`shopping-assistant`**.
+
 
 ---
 
