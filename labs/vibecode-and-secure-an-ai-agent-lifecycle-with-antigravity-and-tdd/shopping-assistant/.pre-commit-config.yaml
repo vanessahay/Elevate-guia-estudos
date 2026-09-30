@@ -9,7 +9,6 @@ repos:
     hooks:
       - id: semgrep
         name: Semgrep Security Scan
-        entry: semgrep scan --error --config labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/shopping-assistant/.semgrep/rules.yaml
-
+        entry: semgrep scan --error --config shopping-assistant/.semgrep/rules.yaml
         language: system
         types: [python]
