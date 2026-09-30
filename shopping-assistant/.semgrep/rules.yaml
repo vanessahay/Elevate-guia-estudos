@@ -1,0 +1,7 @@
+rules:
+  - id: hardcoded-google-api-key
+    pattern-regex: 'AIzaSy[A-Za-z0-9_\-]*'
+    languages:
+      - python
+    severity: ERROR
+    message: "Security Warning: Hardcoded Google API key detected. Do not hardcode secret keys in source code."
