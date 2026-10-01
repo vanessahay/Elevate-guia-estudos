@@ -1,308 +1,202 @@
-# 🎓 Guia de Estudos Completo - Programa Elevate
+# 🎓 Guia de Estudos Completo: Trilha Oficial Elevate (Advanced Agentic AI)
 
-Este documento é o **Guia de Estudos Master** consolidado de todas as atividades, projetos, práticas de segurança, arquiteturas, simuladores e deploys realizados no laboratório **Elevate**.
+* **Trilha Oficial Qwiklabs**: `[ELEVATE]: Advanced Agentic AI`
+* **Course Template**: `https://explore.qwiklabs.com/course_templates/1738435`
+* **Plataforma**: Google Labs for Sales / Qwiklabs / Google Cloud
+* **Ambiente de Trabalho**: Google Antigravity 2.0, Google ADK, Vertex AI Agent Runtime, Gemini Enterprise Platform
 
 ---
 
 ## 📌 Sumário Executivo
 
-1. [Visão Geral do Ecossistema](#1-visão-geral-do-ecossistema)
-2. [Laboratório 1: Vibecode e Segurança de Agentes de IA (TDD & STRIDE)](#2-laboratório-1-vibecode-e-segurança-de-agentes-de-ia-tdd--stride)
-   - [2.1 Arquitetura do Agente Shopping Assistant (ADK 2.0)](#21-arquitetura-do-agente-shopping-assistant-adk-20)
-   - [2.2 Governança e Paved Roads (.agents/)](#22-governança-e-paved-roads-agents)
-   - [2.3 Modelagem de Ameaças STRIDE](#23-modelagem-de-ameaças-stride)
-   - [2.4 Automação de Segurança com Semgrep e Pre-Commit](#24-automação-de-segurança-com-semgrep-e-pre-commit)
-   - [2.5 Testes Orientados a Segurança (TDD com pytest)](#25-testes-orientados-a-segurança-tdd-com-pytest)
-   - [2.6 Loop de Autorremediação no Git](#26-loop-de-autorremediação-no-git)
-3. [Laboratório 2: Deploy & Avaliação no Vertex AI Agent Runtime](#3-laboratório-2-deploy--avaliação-no-vertex-ai-agent-runtime)
-   - [3.1 Arquitetura do Travel Policy Agent (RAG Grounding)](#31-arquitetura-do-travel-policy-agent-rag-grounding)
-   - [3.2 Mapeamento do Servidor FastAPI e Protocolo Reasoning Engine](#32-mapeamento-do-servidor-fastapi-e-protocolo-reasoning-engine)
-   - [3.3 Compilação de Dependências e Dockerfile Otimizado](#33-compilação-de-dependências-e-dockerfile-otimizado)
-   - [3.4 Deploy no Vertex AI Agent Runtime](#34-deploy-no-vertex-ai-agent-runtime)
-   - [3.5 Testes de Conformidade e Validação Live](#35-testes-de-conformidade-e-validação-live)
-   - [3.6 Registro no Gemini Enterprise App](#36-registro-no-gemini-enterprise-app)
-4. [Projeto Avançado: Cymbal Leadership Simulator (Simulador Multi-Agente)](#4-projeto-avançado-cymbal-leadership-simulator-simulador-multi-agente)
-   - [4.1 Visão Geral e Conceito da Simulação](#41-visão-geral-e-conceito-da-simulação)
-   - [4.2 O "Leadership Workspace" UI e Métricas de KPI](#42-o-leadership-workspace-ui-e-métricas-de-kpi)
-   - [4.3 Sistema Multi-Agente (Diretor de Cenário e Avaliador de Talentos)](#43-sistema-multi-agente-diretor-de-cenário-e-avaliador-de-talentos)
-   - [4.4 Gerenciamento de Estado e Graduação Fail-Safe](#44-gerenciamento-de-estado-e-graduação-fail-safe)
-   - [4.5 Endpoints REST e Execução Local](#45-endpoints-rest-e-execução-local)
-5. [Cheatsheet de Comandos Essenciais](#5-cheatsheet-de-comandos-essenciais)
-6. [Boas Práticas Consolidadas](#6-boas-práticas-consolidadas)
+1. [Visão Geral do Programa e Filosofia Pedagógica](#1-visão-geral-do-programa-e-filosofia-pedagógica)
+2. [Matriz Curricular Completa dos 15 Laboratórios](#2-matriz-curricular-completa-dos-15-laboratórios)
+3. [Módulo 0: Fundamentos de Engenharia de IA Agêntica](#3-módulo-0-fundamentos-de-engenharia-de-ia-agêntica)
+   - [Lab 0: Build LaunchPad with an Agentic Workflow (`65280129`)](#lab-0-build-launchpad-with-an-agentic-workflow-65280129)
+4. [Módulo 1: Migrações, Arquitetura e Operação de Soluções Cloud](#4-módulo-1-migrações-arquitetura-e-operação-de-soluções-cloud)
+   - [Lab 1.1: Modernizing Google Cloud Workloads via Agentic Tools (`65280130`)](#lab-11-modernizing-google-cloud-workloads-via-agentic-tools-65280130)
+   - [Lab 1.2: Diagnose and Remediate Multi-Region Cloud Infrastructure Outages (`65280131`)](#lab-12-diagnose-and-remediate-multi-region-cloud-infrastructure-outages-65280131)
+   - [Lab 1.3: Compare AWS to Google Cloud and Generate Terraform (`65280132`)](#lab-13-compare-aws-to-google-cloud-and-generate-terraform-65280132)
+   - [Lab 1.4: Use Gemini in a Terminal for Enterprise Workflows (`65280133`)](#lab-14-use-gemini-in-a-terminal-for-enterprise-workflows-65280133)
+5. [Módulo 2: Segurança, Guardrails e Ciclo de Vida Seguro](#5-módulo-2-segurança-guardrails-e-ciclo-de-vida-seguro)
+   - [Lab 2.1: Vibecode and Secure an AI Agent Lifecycle with TDD (`65280134`)](#lab-21-vibecode-and-secure-an-ai-agent-lifecycle-with-tdd-65280134)
+   - [Lab 2.2: Vulnerability Scanning and Remediation with CodeMender (`65280135`)](#lab-22-vulnerability-scanning-and-remediation-with-codemender-65280135)
+   - [Lab 2.3: Build Continuous Remediation Guardrails with CodeMender - V2 (`65280136`)](#lab-23-build-continuous-remediation-guardrails-with-codemender---v2-65280136)
+6. [Módulo 3: Construção, Deploy, Avaliação e Otimização de Agentes](#6-módulo-3-construção-deploy-avaliação-e-otimização-de-agentes)
+   - [Lab 3.1: Build a Policy Agent with ADK (`65280137`)](#lab-31-build-a-policy-agent-with-adk-65280137)
+   - [Lab 3.2: Deploy a Policy Agent to Agent Runtime & Registry (`65280138`)](#lab-32-deploy-a-policy-agent-to-agent-runtime--registry-65280138)
+   - [Lab 3.3: Implement Agent Evaluation with GEAP (`65280139`)](#lab-33-implement-agent-evaluation-with-geap-65280139)
+   - [Lab 3.4: Cymbal Leadership Simulator - Multi-Agent System (`65280140`)](#lab-34-cymbal-leadership-simulator---multi-agent-system-65280140)
+   - [Lab 3.5: Connect Agents to Unstructured and Structured Data Sources (`65280141`)](#lab-35-connect-agents-to-unstructured-and-structured-data-sources-65280141)
+   - [Lab 3.6: GEAP Policy Agent Performance & Cost Optimization - Break-Fix (`65280142`)](#lab-36-geap-policy-agent-performance--cost-optimization---break-fix-65280142)
+   - [Lab 3.7: Building and Deploying Agentic Systems - Challenge Lab (`65280143`)](#lab-37-building-and-deploying-agentic-systems---challenge-lab-65280143)
+7. [Cheatsheet de Comandos Essenciais](#7-cheatsheet-de-comandos-essenciais)
+8. [Boas Práticas Consolidadas de Engenharia de Agentes](#8-boas-práticas-consolidadas-de-engenharia-de-agentes)
 
 ---
 
-## 1. Visão Geral do Ecossistema
+## 1. Visão Geral do Programa e Filosofia Pedagógica
 
-O repositório **Elevate** combina o desenvolvimento moderno de **Agentes Inteligentes Conversacionais, de Raciocínio (Reasoning Engines) e Simuladores Multi-Agentes** integrando boas práticas de engenharia de software, Test-Driven Development (TDD), modelagem de segurança ofensiva/defensiva (STRIDE), e implantação serverless gerenciada no **Google Cloud Vertex AI Agent Runtime** e **Gemini Enterprise Platform**.
+O programa **[ELEVATE]: Advanced Agentic AI** (Course Template `1738435`) capacita arquitetos e engenheiros de nuvem do Google Cloud a projetar, proteger, depurar e implantar sistemas de Inteligência Artificial Agêntica de ponta a ponta.
 
-### Principais Tecnologias Utilizadas:
-- **Linguagem & Ambiente**: Python 3.12 / 3.13 / 3.14, `uv` (Rust-based Python package manager).
-- **Framework de Agentes**: Google Agent Development Kit (**ADK 2.0** - `google-adk`), Gemini SDK (`google-genai`).
-- **Modelos de Linguagem**: `gemini-3.8-flash` e `gemini-3.6-flash`.
-- **Tooling de Agentes**: `google-agents-cli` (`agents-cli`).
-- **Segurança & Qualidade**: Semgrep, Pre-commit hooks, Pytest, Ruff, Codespell, Ty.
-- **Nuvem & Runtime**: Google Cloud Platform (GCP), Vertex AI Agent Runtime (`agent_runtime` / Reasoning Engines), Gemini Enterprise Applications, Cloud Build, Docker, FastAPI, Uvicorn.
+### A Estrutura Pedagógica de Três Camadas:
+1. **Guided Procedural (60% - 9 laboratórios)**: Roteiros estruturados cobrindo comandos de setup, migração de monolitos, geração de Terraform e pipelines de CI/CD.
+2. **Conversational / TDD Vibecoding (20% - 3 laboratórios)**: Interação conversacional direta com o Antigravity 2.0 e Gemini 3.6/3.8 Flash, aplicando Test-Driven Development e modelagem de ameaças STRIDE.
+3. **Break-Fix Diagnostic & Challenge (20% - 3 laboratórios)**: **Zero comandos prontos**. Ambientes intencionalmente quebrados em produção onde o engenheiro deve conduzir Root Cause Analysis (RCA) empírica, analisar traces/logs via MCP e refatorar a arquitetura sob pressão.
 
 ---
 
-## 2. Laboratório 1: Vibecode e Segurança de Agentes de IA (TDD & STRIDE)
+## 2. Matriz Curricular Completa dos 15 Laboratórios
 
-**Projeto Target**: `labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/shopping-assistant/`
+| Módulo & Lab # | Lab ID | Título Oficial do Laboratório | Paradigma | Trackers | Guia Específico |
+| :--- | :---: | :--- | :---: | :---: | :---: |
+| **Módulo 0** (Lab 0) | `65280129` | Build LaunchPad with an Agentic Workflow | Guided Procedural | 7 | [📖 Guia](./labs/module0-build-launchpad-with-agentic-workflow/guia_de_estudos.md) |
+| **Módulo 1** (Lab 1.1) | `65280130` | Modernizing Google Cloud Workloads via Agentic Tools | Guided Procedural | 5 | [📖 Guia](./labs/module1-modernizing-gcp-workloads/guia_de_estudos.md) |
+| **Módulo 1** (Lab 1.2) | `65280131` | Diagnose & Remediate Multi-Region Cloud Infrastructure Outages | **Break-Fix Diagnostic** | 4 | [📖 Guia](./labs/diagnose-and-remediate-multi-region-cloud-outages/guia_de_estudos.md) |
+| **Módulo 1** (Lab 1.3) | `65280132` | Compare AWS Environment to Google Cloud and Generate Terraform | Guided Procedural | 2 | [📖 Guia](./labs/module1-aws-to-gcp-terraform-migration/guia_de_estudos.md) |
+| **Módulo 1** (Lab 1.4) | `65280133` | Use Gemini in a Terminal for Enterprise Workflows End-to-End | Guided Procedural | 6 | [📖 Guia](./labs/module1-gemini-terminal-enterprise-workflows/guia_de_estudos.md) |
+| **Módulo 2** (Lab 2.1) | `65280134` | Vibecode & Secure an AI Agent Lifecycle with Antigravity & TDD | Conversational / TDD | 7 | [📖 Guia](./labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/guia_de_estudos.md) |
+| **Módulo 2** (Lab 2.2) | `65280135` | Vulnerability Scanning and Remediation with CodeMender | Guided Procedural | 1 | [📖 Guia](./labs/module2-vulnerability-scanning-codemender/guia_de_estudos.md) |
+| **Módulo 2** (Lab 2.3) | `65280136` | Build Continuous Remediation Guardrails with CodeMender - V2 | Guided Procedural | 1 | [📖 Guia](./labs/module2-continuous-remediation-guardrails/guia_de_estudos.md) |
+| **Módulo 3** (Lab 3.1) | `65280137` | Build a Policy Agent with ADK | Conversational / TDD | 3 | [📖 Guia](./labs/module3-build-policy-agent-adk/guia_de_estudos.md) |
+| **Módulo 3** (Lab 3.2) | `65280138` | Deploy Policy Agent to Agent Runtime & Register in Registry | Guided Procedural | 3 | [📖 Guia](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/guia_de_estudos.md) |
+| **Módulo 3** (Lab 3.3) | `65280139` | Implement Agent Evaluation with Gemini Enterprise Agent Platform | Guided Procedural | 2 | [📖 Guia](./labs/module3-agent-evaluation-geap/guia_de_estudos.md) |
+| **Módulo 3** (Lab 3.4) | `65280140` | Build an AI-Powered Leadership Simulator with Antigravity | Conversational / TDD | 1 | [📖 Guia](./labs/cymbal-leadership-simulator/guia_de_estudos.md) |
+| **Módulo 3** (Lab 3.5) | `65280141` | Connect Agents to Unstructured and Structured Data Sources | Guided Procedural | 2 | [📖 Guia](./labs/module3-connect-agents-unstructured-structured-data/guia_de_estudos.md) |
+| **Módulo 3** (Lab 3.6) | `65280142` | GEAP Policy Agent Performance & Cost Optimization | **Break-Fix Diagnostic** | 3 | [📖 Guia](./labs/module3-geap-policy-agent-performance-cost-optimization/guia_de_estudos.md) |
+| **Módulo 3** (Lab 3.7) | `65280143` | Building and Deploying Agentic Systems - Challenge Lab | **Challenge Lab** | 4 | [📖 Guia](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/lab_guide.md) |
 
-### 2.1 Arquitetura do Agente Shopping Assistant (ADK 2.0)
-Construído utilizando a ferramenta `agents-cli`:
+---
+
+## 3. Módulo 0: Fundamentos de Engenharia de IA Agêntica
+
+### Lab 0: Build LaunchPad with an Agentic Workflow (`65280129`)
+- **Objetivo**: Inicialização do workspace hermético do engenheiro (*LaunchPad*) com gerenciamento de dependências via `uv`.
+- **Arquitetura**: Configuração de Application Default Credentials (ADC), pareamento com contas de serviço do Google Cloud e ativação das APIs da Vertex AI.
+- **Validação**: Verificação dos 7 trackers de atividade cobrindo scaffolding de protótipo (`agents-cli scaffold create`), linters estáticos (`agents-cli lint`) e teste funcional de prompt.
+- 📁 **Detalhes**: [Guia Completo do Lab 0](./labs/module0-build-launchpad-with-agentic-workflow/guia_de_estudos.md).
+
+---
+
+## 4. Módulo 1: Migrações, Arquitetura e Operação de Soluções Cloud
+
+### Lab 1.1: Modernizing Google Cloud Workloads via Agentic Tools (`65280130`)
+- **Cenário**: Modernização de monolito Flask legado executando em Compute Engine para arquitetura de microsserviços serverless.
+- **Execução**:
+  1. O agente Antigravity decompõe dependências do sistema e escreve um `Dockerfile` multi-stage com imagem `python:3.12-slim`.
+  2. Publicação automatizada da imagem no Artifact Registry (`us-central1-docker.pkg.dev/...`).
+  3. Deploy no **Cloud Run** com configuração de scale-to-zero e injeção da variável `PORT=8080`.
+- 📁 **Detalhes**: [Guia Completo do Lab 1.1](./labs/module1-modernizing-gcp-workloads/guia_de_estudos.md).
+
+### Lab 1.2: Diagnose and Remediate Multi-Region Cloud Infrastructure Outages (`65280131`)
+- **Cenário de Incidente**: Acionamento on-call após deploy v2.0 na Cymbal Group com latência transatlântica superior a 2.500ms e indisponibilidade intermitente (erros 500).
+- **Restrição Estrita**: Acesso manual ao Cloud Console proibido; resolução mandatoriamente via Antigravity, MCP e CLI.
+- **Root Cause Analysis (RCA)**:
+  1. *Infrastructure Fault*: Cloud Run europeu (`europe-west1`) apontando para o banco primário nos EUA (`us-central1`) via variável `DB_HOST`, gerando latência de WAN a cada query.
+  2. *Application Fault*: Leak de conexões causado pela inicialização de novas pools de banco dentro de handlers HTTP assíncronos.
+- **Remediações Aplicadas**:
+  1. Atualização do `DB_HOST` do Cloud Run na Europa para a réplica regional (`gcloud run services update cymbal-backend-eu --update-env-vars DB_HOST=$REPLICA_IP`).
+  2. Refatoração do código backend para utilizar connection pool global / singleton gerenciado no lifespan do FastAPI.
+- 📁 **Detalhes**: [Guia Completo do Lab 1.2](./labs/diagnose-and-remediate-multi-region-cloud-outages/guia_de_estudos.md).
+
+### Lab 1.3: Compare AWS to Google Cloud and Generate Terraform (`65280132`)
+- **Cenário**: Análise de inventário de infraestrutura AWS (`aws_environment.json`) contendo VPC, EC2, RDS Aurora e S3.
+- **Execução**:
+  1. Mapeamento de serviços equivalentes (VPC global, Managed Instance Groups, Cloud SQL/AlloyDB, GCS).
+  2. Síntese automatizada de código HCL modular (`main.tf`, `vpc.tf`, `storage.tf`).
+  3. Provisionamento live via `terraform plan` e `terraform apply`.
+- 📁 **Detalhes**: [Guia Completo do Lab 1.3](./labs/module1-aws-to-gcp-terraform-migration/guia_de_estudos.md).
+
+### Lab 1.4: Use Gemini in a Terminal for Enterprise Workflows (`65280133`)
+- **Cenário**: Automação operacional de ponta a ponta sem sair da linha de comando:
+  - Consumo headless de APIs de incidentes e formatação tabular via Gemini CLI.
+  - Transformação in-editor com filtros encadeados em buffers do Vim (`:%!gemini-cli ...`).
+  - Auditoria de capacidade de IPs de subnets corporativas, mapeamento de custos de migração de instâncias e análise de risco de esgotamento de cotas de GPU.
+- 📁 **Detalhes**: [Guia Completo do Lab 1.4](./labs/module1-gemini-terminal-enterprise-workflows/guia_de_estudos.md).
+
+---
+
+## 5. Módulo 2: Segurança, Guardrails e Ciclo de Vida Seguro
+
+### Lab 2.1: Vibecode and Secure an AI Agent Lifecycle with TDD (`65280134`)
+- **Projeto**: `shopping-assistant` (Google ADK 2.0 + Gemini 3.8 Flash).
+- **Paved Roads & Governança**: Estrutura `.agents/CONTEXT.md` com validações via Pydantic e interceptadores `PreToolUse`.
+- **Modelagem STRIDE**: Documentação de riscos de Spoofing, Tampering, Repudiation, Information Disclosure, DoS e Elevação de Privilégio.
+- **Automação de Segurança**: Bloqueio de API keys estáticas via Semgrep (`.semgrep/rules.yaml`) integrado em hooks de pré-commit do Git.
+- **Test-Driven Development (TDD)**: Suíte em `pytest tests/test_agent.py` garantindo idempotência e prevenção contra replay de cupons.
+- 📁 **Detalhes & Código**: [`labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/`](./labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/).
+
+### Lab 2.2: Vulnerability Scanning and Remediation with CodeMender (`65280135`)
+- **Ferramenta**: Assistente especializado **VulnHawk CodeMender** (`cm`).
+- **Execução**: Descoberta com identificadores determinísticos de 8 caracteres (`cm find`), aplicação de patches cirúrgicos com testes de regressão (`cm fix <finding_id> --apply`) e publicação de relatório consolidado de auditoria no Cloud Storage.
+- 📁 **Detalhes**: [Guia Completo do Lab 2.2](./labs/module2-vulnerability-scanning-codemender/guia_de_estudos.md).
+
+### Lab 2.3: Build Continuous Remediation Guardrails with CodeMender - V2 (`65280136`)
+- **Arquitetura**: Pipeline CI/CD keyless utilizando Workload Identity Federation entre GitHub Actions e Google Cloud.
+- **Automação**: Interceptação de Pull Requests com código vulnerável e abertura automática de PR de remediação contendo o patch sanitizado e testes aprovados.
+- 📁 **Detalhes**: [Guia Completo do Lab 2.3](./labs/module2-continuous-remediation-guardrails/guia_de_estudos.md).
+
+---
+
+## 6. Módulo 3: Construção, Deploy, Avaliação e Otimização de Agentes
+
+### Lab 3.1: Build a Policy Agent with ADK (`65280137`)
+- **Projeto**: Assistente RAG de viagens corporativas (*Cymbal Travel Policy Concierge*).
+- **Execução**: Implementação do `root_agent` com ADK 2.0, registro do retriever textual sobre `corporate_travel_policy.txt` e validação local via `agents-cli playground`.
+- 📁 **Detalhes**: [Guia Completo do Lab 3.1](./labs/module3-build-policy-agent-adk/guia_de_estudos.md).
+
+### Lab 3.2 (`65280138`) & Lab 3.7 (`65280143`): Deploy no Vertex AI Agent Runtime & Challenge Lab
+- **Mapeamento do Reasoning Engine**: Criação do adaptador dinâmico `AdkApp` em `main.py` para responder às rotas nativas `/api/reasoning_engine` e `/api/stream_reasoning_engine`.
+- **Deploy em Nuvem**: Contêiner otimizado implantado em `us-central1` via `agents-cli deploy` (`remote_agent_runtime_id: projects/363292280287/locations/us-central1/reasoningEngines/6468496725194571776`).
+- **Publicação Corporativa**: Registro do agente no catálogo de aplicativos internos do Gemini Enterprise (`agents-cli publish gemini-enterprise`).
+- 📁 **Detalhes & Código**: [`labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/`](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/).
+
+### Lab 3.3: Implement Agent Evaluation with GEAP (`65280139`)
+- **Ferramental**: Vertex AI EvalTask e Gemini Enterprise Agent Platform.
+- **Métricas**: Avaliação de 5 cenários críticos (`evaluation.json`) medindo aderência à verdade fundamental (*groundedness*), conformidade de instruções (*instruction following*) e segurança contra alucinações (*safety*).
+- 📁 **Detalhes**: [Guia Completo do Lab 3.3](./labs/module3-agent-evaluation-geap/guia_de_estudos.md).
+
+### Lab 3.4: Cymbal Leadership Simulator (`65280140`)
+- **Arquitetura Multi-Agente**:
+  - **Agente 1 (Scenario Director & HR Coach)**: Conduz o candidato por 3 fases dinâmicas de crise de equipe.
+  - **Agente 2 (Talent Evaluator)**: Disparado ao término da simulação para analisar o histórico e gerar um Scorecard JSON balanceado.
+- **Workspace UI**: Interface estilo Slack com barras dinâmicas de **Team Morale (70%)**, **Productivity (80%)** e **Burnout Risk (30%)**, além de mecanismo Fail-Safe de encerramento por turnos.
+- 📁 **Detalhes**: [`labs/cymbal-leadership-simulator/`](./labs/cymbal-leadership-simulator/).
+
+### Lab 3.5: Connect Agents to Unstructured and Structured Data Sources (`65280141`)
+- **Arquitetura Híbrida**: Processamento de recibos binários/PDFs armazenados em Cloud Storage com extração multimodal do Gemini, combinada a queries analíticas relacionais no **AlloyDB para PostgreSQL**.
+- 📁 **Detalhes**: [Guia Completo do Lab 3.5](./labs/module3-connect-agents-unstructured-structured-data/guia_de_estudos.md).
+
+### Lab 3.6: GEAP Policy Agent Performance & Cost Optimization (`65280142`)
+- **Desafio Break-Fix**: Diagnóstico de crash no boot (erro de import em `app_utils/telemetry.py`), implementação de cache de respostas em memória para FAQs e roteamento em camadas (*tiered routing*) entre modelos Flash e Pro para redução de 90%+ no consumo de tokens.
+- 📁 **Detalhes**: [Guia Completo do Lab 3.6](./labs/module3-geap-policy-agent-performance-cost-optimization/guia_de_estudos.md).
+
+---
+
+## 7. Cheatsheet de Comandos Essenciais
+
+### Gestão Local com UV e Agents CLI
 ```bash
-agents-cli scaffold create shopping-assistant --agent adk --prototype --agent-guidance-filename GEMINI.md -y
-```
-
-#### Componentes Fundamentais (`app/agent.py`):
-1. **Ferramenta de Negócio (`redeem_discount_code`)**:
-   - Função Python pura para resgate e validação de cupons promocionais em memória (`DISCOUNT_CODES` e `REDEEMED_CODES`).
-2. **O Agent Raiz (`root_agent`)**:
-   - Instância de `Agent` que une a persona do assistente ao modelo `Gemini(model="gemini-3.8-flash")` e expõe as ferramentas registradas.
-3. **O Workflow Container (`App`)**:
-   - Encapsula a aplicação para execução web (FastAPI) e interoperabilidade com o protocolo Agent-to-Agent (A2A).
-
----
-
-### 2.2 Governança e Paved Roads (`.agents/`)
-A estrutura `.agents/` define as regras de governança e paved roads para os agentes e assistentes de desenvolvimento:
-- **`CONTEXT.md`**: Estabelece limites estritos de segurança (*Security Boundaries & Assertions*), validações via Pydantic, restrições no terminal e critérios de aceitação TDD.
-- **`hooks.json`**: Interceptador `PreToolUse` para sanitarização de chamadas antes da execução das ferramentas.
-- **`SKILL.md` (`stride-threat-model`)**: Skill dedicada à execução e auditoria de ameaças conforme a metodologia STRIDE.
-
----
-
-### 2.3 Modelagem de Ameaças STRIDE
-
-| Pilar STRIDE | Ameaça Identificada | Gravidade | Estratégia de Mitigação |
-| :--- | :--- | :---: | :--- |
-| **Spoofing** | Parâmetro `user_id` sem validação por token de sessão. | **Alto** | Associar `user_id` a tokens JWT/OAuth2 autenticados na camada web. |
-| **Tampering** | Armazenamento volátil em memória permite bypass ao reiniciar. | **Médio** | Migrar estado de cupons para banco relacional transacional ou Redis. |
-| **Repudiation** | Falta de trilhas imutáveis de auditoria nas chamadas de ferramentas. | **Médio** | Habilitar `google-cloud-logging` estruturado com IDs de correlação. |
-| **Information Disclosure** | Risco de vazamento de API Keys estáticas no código. | **Alto** | Remover segredos estáticos e injetar via Secret Manager / Variáveis de Ambiente. |
-| **Denial of Service** | Ausência de limite de requisições para tentativas de cupom. | **Médio** | Aplicar Rate Limiting (ex: `slowapi` ou Cloud Armor). |
-| **Elevation of Privilege** | Falta de checagem RBAC nas funções das ferramentas. | **Alto** | Implementar verificação de papéis do usuário antes da chamada da tool. |
-
----
-
-### 2.4 Automação de Segurança com Semgrep e Pre-Commit
-Para impedir o vazamento acidental de segredos (como chaves de API do Google `AIzaSy...`):
-- **Regras do Semgrep (`.semgrep/rules.yaml`)**:
-  Identificação via expressão regular do padrão `AIzaSy[A-Za-z0-9_\-]*`.
-- **Hooks de Pre-Commit (`.pre-commit-config.yaml`)**:
-  ```yaml
-  repos:
-    - repo: https://github.com/pre-commit/pre-commit-hooks
-      rev: v4.6.0
-      hooks:
-        - id: trailing-whitespace
-        - id: end-of-file-fixer
-    - repo: https://github.com/semgrep/semgrep
-      rev: v1.78.0
-      hooks:
-        - id: semgrep
-          args: ['--config=.semgrep/rules.yaml', '--error']
-  ```
-- **Instalação**: `pre-commit install`.
-
----
-
-### 2.5 Testes Orientados a Segurança (TDD com pytest)
-A suíte de testes de segurança em `tests/test_agent.py` cobre:
-1. **Resgate Bem-Sucedido**: Validação de código válido e abatimento de saldo.
-2. **Prevenção de Replay (Uso Único)**: Garantia de que o mesmo código não pode ser resgatado duas vezes pelo mesmo usuário.
-3. **Obrigatoriedade de Identidade**: Rejeição de `user_id` vazio ou nulo.
-4. **Validação de Códigos Inexistentes**: Tratamento gracioso para cupons inválidos.
-5. **Normalização de Entrada**: Tolerância a maiúsculas/minúsculas e espaços em branco extras.
-
-Comando de execução:
-```bash
-uv run --active pytest tests/test_agent.py
-```
-
----
-
-### 2.6 Loop de Autorremediação no Git
-Demonstrado durante o desenvolvimento:
-1. Tentativa de `git commit` contendo uma chave simulada -> **Bloqueio pelo hook do Semgrep**.
-2. Remoção da chave hardcoded e refatoração de `app/agent.py`.
-3. Execução dos testes automatizados e linters (`agents-cli lint`).
-4. Re-execução do `git commit` -> **Aprovação e commit limpo no histórico**.
-
----
-
-## 3. Laboratório 2: Deploy & Avaliação no Vertex AI Agent Runtime
-
-**Projeto Target**: `labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/travel_policy_agent/`
-
-### 3.1 Arquitetura do Travel Policy Agent (RAG Grounding)
-O **Travel Policy Agent** é um assistente RAG (Retrieval-Augmented Generation) especializado em orientar colaboradores da empresa **Cymbal Group** sobre normas de viagens corporativas.
-
-- **Base de Conhecimento**: `corporate_travel_policy.txt`
-- **Modelo de IA**: `gemini-3.6-flash`
-- **Framework Agente**: Google ADK 2.6.0 (`google-adk==2.6.0`)
-- **CLI de Deploy**: Google Agents CLI 1.2.1 (`google-agents-cli==1.2.1`)
-- **Alvo de Deploy**: Vertex AI Agent Runtime (`agent_runtime` / Reasoning Engine) na região `us-central1`.
-
----
-
-### 3.2 Mapeamento do Servidor FastAPI e Protocolo Reasoning Engine
-
-#### Diagnóstico da Chamada no Cloud:
-Ao ser implantado no Vertex AI Agent Runtime, o contêiner recebe requisições da infraestrutura do Google Cloud nas rotas `/api/reasoning_engine` e `/api/stream_reasoning_engine`. Caso a aplicação FastAPI não possua esses endpoints expostos, o sistema retorna `404 Not Found`.
-
-#### Solução de Mapeamento Integrada no `main.py`:
-Utilização do adaptador `AdkApp` de `vertexai.agent_engines.templates.adk`:
-```python
-from google.adk.apps import App
-from vertexai.agent_engines.templates.adk import AdkApp
-
-adk_app = App(name="cymbal_policy_concierge", root_agent=root_agent)
-
-runtime_instance: AdkApp | None = None
-
-def get_runtime() -> AdkApp:
-    global runtime_instance
-    if runtime_instance is None:
-        runtime_instance = AdkApp(app=adk_app)
-        runtime_instance.set_up()
-    return runtime_instance
-
-@app.post("/api/reasoning_engine")
-async def reasoning_engine(request: Request) -> responses.JSONResponse:
-    body = await request.json()
-    method = getattr(get_runtime(), body["class_method"])
-    kwargs = body.get("input") or {}
-    output = await method(**kwargs) if inspect.iscoroutinefunction(method) else method(**kwargs)
-    return responses.JSONResponse(content=encoders.jsonable_encoder({"output": output}))
-```
-
----
-
-### 3.3 Compilação de Dependências e Dockerfile Otimizado
-
-1. **Compilação determinística do `pyproject.toml` para `requirements.txt`**:
-   ```bash
-   uv pip compile pyproject.toml -o requirements.txt
-   ```
-
-2. **Manifesto `agents-cli-manifest.yaml`**:
-   ```yaml
-   name: travel-policy-agent
-   agent_directory: .
-   deployment_target: agent_runtime
-   session_type: in_memory
-   create_params:
-     deployment_target: agent_runtime
-     session_type: in_memory
-   ```
-
-3. **`Dockerfile` Serverless para Vertex Cloud Build**:
-   ```dockerfile
-   FROM python:3.12-slim
-
-   WORKDIR /code
-
-   COPY requirements.txt ./
-   RUN pip install --no-cache-dir -r requirements.txt
-
-   COPY . .
-
-   EXPOSE 8080
-
-   CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8080"]
-   ```
-
----
-
-### 3.4 Deploy no Vertex AI Agent Runtime
-
-Execução do deploy via `agents-cli`:
-```bash
-agents-cli deploy \
-  --project <PROJECT_ID> \
-  --region us-central1 \
-  --no-confirm-project
-```
-
----
-
-### 3.5 Testes de Conformidade e Validação Live
-
-#### Tabela de Resultados dos Testes de Conformidade:
-
-| Cenário | Pergunta Enviada | Comportamento Esperado | Resposta Obtida do Agent Runtime | Resultado |
-| :--- | :--- | :--- | :--- | :---: |
-| **1. Refeição na Suíça** | *"What is the meal cap for Switzerland?"* | Recuperar Seção 3.1 e retornar **120 CHF** | *"According to the Cymbal Group Travel Policy, the maximum daily meal cap for Switzerland is **120 CHF** (approximately $135 USD)."* | **PASS** |
-| **2. Classe de Voos** | *"Can I book a first-class flight from Dublin to Zurich?"* | Recuperar Seção 2.1 e **negar** (1ª Classe proibida em voos < 6h) | *"No, you cannot book a first-class flight from Dublin to Zurich. According to the Cymbal Group Global Travel Policy (Section 2.1)... Economy Class is required and First Class is prohibited..."* | **PASS** |
-| **3. Entretenimento no Hotel** | *"Can I buy a movie on the hotel TV?"* | Recuperar Seção 4 e marcar como **não reembolsável** | *"No, in-room movies are not reimbursable. Under Section 4.2 (Non-Reimbursable Expenses)... personal entertainment including in-room movies is explicitly listed as non-reimbursable."* | **PASS** |
-
----
-
-## 4. Projeto Avançado: Cymbal Leadership Simulator (Simulador Multi-Agente)
-
-### 4.1 Visão Geral e Conceito da Simulação
-O **Cymbal Leadership Simulator** é um ambiente interativo e gamificado de avaliação de liderança e RH para a Cymbal AI. Em vez de testes de código convencionais, o candidato enfrenta 3 fases sequenciais de crise de equipe:
-- **Fase 1 (The Dispute)**: Mediação de conflito técnico entre o Arquiteto Líder Dev A e o Engenheiro Senior Dev B.
-- **Fase 2 (The Crunch Time Dilemma)**: Escolha sob pressão entre exigir overtime de fim de semana ou negociar aditamento de prazo com stakeholders.
-- **Fase 3 (The Feedback Session)**: Formulação de feedback construtivo para um colaborador com queda de desempenho.
-
----
-
-### 4.2 O "Leadership Workspace" UI e Métricas de KPI
-A interface do candidato é um painel corporativo dividido em 3 módulos em tempo real:
-- **Leadership KPIs**: Visualizadores animados com barras de progresso para **Team Morale (70%)**, **Productivity (80%)** e **Burnout Risk (30%)**.
-- **Crisis Inbox & Memos**: E-mails e relatórios de crise desbloqueados dinamicamente a cada fase.
-- **Communication Hub**: Interface estilo Slack (`#team-crisis-room`) para conversa direta com o assistente de RH.
-
----
-
-### 4.3 Sistema Multi-Agente (Diretor de Cenário e Avaliador de Talentos)
-1. **Agente 1 (Scenario Director & HR Coach)**:
-   - Alimentado por `gemini-3.6-flash`.
-   - Conduz o candidato pelas 3 fases e emite a tag `[SIMULATION_COMPLETE]` ao final da resposta da Fase 3.
-2. **Agente 2 (Talent Evaluator)**:
-   - Alimentado por `gemini-3.6-flash`.
-   - Disparado automaticamente ao término da simulação.
-   - Analisa o transcript completo contra a rubrica de RH e gera um Scorecard JSON balanceado e realista contendo `overall_rating` ("Strong Leader", "Developing", "Needs Support"), `score_breakdown` (0-100 por competência), `strengths`, `areas_for_growth` e `summary_verdict`.
-
----
-
-### 4.4 Gerenciamento de Estado e Graduação Fail-Safe
-- **Lógica de KPIs**: Abordagens empáticas elevam a Moral e reduzem o Burnout, enquanto abordagens autoritárias elevam a Produtividade a custo de aumento no Burnout.
-- **Fail-Safe Graduation**: Se o candidato interagir por 3 turnos no chat, o backend encerra automaticamente a simulação e dispara o Agente 2, garantindo o fim gracioso da sessão mesmo se a tag de conclusão for omitida.
-
----
-
-### 4.5 Endpoints REST e Execução Local
-- **Endpoints FastAPI**: `GET /api/state`, `POST /api/chat`, `POST /api/evaluate`, `POST /api/reset`.
-- **Launcher**: Script `run_local.sh` que orquestra a execução simultânea do backend FastAPI na porta `8000` e do servidor estático frontend na porta `3002`.
-
----
-
-## 5. Cheatsheet de Comandos Essenciais
-
-### Gestão de Ambiente e Agente Local
-```bash
-# Criar ambiente virtual Python 3.13 com uv
+# Inicializar ambiente virtual Python 3.13
 uv venv -p 3.13 .venv && source .venv/bin/activate
 
-# Instalar ferramentas de agente
-uvx google-agents-cli setup
+# Instalar toolchain oficial de agentes
+uv pip install google-agents-cli google-adk
 
-# Executar verificadores estáticos e linter
+# Executar suíte estática de linter
 agents-cli lint
 
-# Testar agente localmente no terminal
-agents-cli run "Qual é a política de reembolso?"
+# Iniciar playground interativo local
+agents-cli playground
+
+# Testar agente localmente via CLI
+agents-cli run "Qual é o limite de refeição na Suíça?"
 ```
 
 ### Segurança e Testes
 ```bash
-# Executar suíte de testes unitários de segurança
-uv run --active pytest tests/test_agent.py
+# Executar testes unitários de segurança com pytest
+uv run pytest tests/
 
 # Instalar pre-commit hooks no repositório Git
 pre-commit install
@@ -311,24 +205,24 @@ pre-commit install
 semgrep --config=.semgrep/rules.yaml .
 ```
 
-### Cloud Build, Deploy e Simuladores
+### Deploy e Nuvem
 ```bash
-# Compilar dependências
+# Compilar dependências determinísticas
 uv pip compile pyproject.toml -o requirements.txt
 
 # Deploy do agente no Vertex AI Agent Runtime
-agents-cli deploy --project <PROJECT_ID> --region us-central1 --no-confirm-project
+agents-cli deploy --project $GOOGLE_CLOUD_PROJECT --region us-central1 --no-confirm-project
 
-# Executar o Cymbal Leadership Simulator localmente
-./run_local.sh
+# Publicar agente no Gemini Enterprise App
+agents-cli publish gemini-enterprise --list
 ```
 
 ---
 
-## 6. Boas Práticas Consolidadas
+## 8. Boas Práticas Consolidadas de Engenharia de Agentes
 
-1. **Nunca insira chaves de API no código**: Use variáveis de ambiente e configure linters/semgrep no pre-commit.
-2. **Defina Security Boundaries claras**: Utilize a pasta `.agents/` e arquivos `CONTEXT.md` para delimitar o comportamento e as restrições das ferramentas executadas por LLMs.
-3. **Escreva testes antes de refatorar (TDD)**: Assegure que as chamadas de ferramentas tratam abusos de entradas, repetições de chamadas e falta de permissões.
-4. **Isenção de Inchaço no Repositório**: Mantenha repositórios de documentação e guias de estudo limpos de pastas de código de projetos paralelos, documentando a arquitetura em guias markdown limpos e modulares (`labs/cymbal-leadership-simulator/`).
-5. **Implemente Mecanismos Fail-Safe em Sistemas Multi-Agentes**: Garanta contadores de turnos ou timeouts para disparar avaliações de encerramento caso a tag de finalização do modelo não seja emitida.
+1. **Governança de Segredos**: Nunca comite chaves de API (`AIzaSy...`). Utilize pre-commit com Semgrep e autenticação federada (Workload Identity).
+2. **Defesa em Profundidade em Tools**: Aplique validação de tipos com Pydantic e interceptores `PreToolUse` para validar parâmetros antes de executar chamadas de banco ou APIs externas.
+3. **Reasoning Engine Adapter**: Para deploys no Vertex AI Agent Runtime, certifique-se de que sua aplicação FastAPI expõe os endpoints `/api/reasoning_engine` com o wrapper `AdkApp`.
+4. **Resiliência Multi-Agente**: Em sistemas com múltiplos agentes coordenados, implemente sempre limites de turnos (*fail-safe timeout*) para evitar loops de diálogo infinitos.
+5. **Observabilidade Unificada**: Utilize traces distribuídos do Cloud Trace e correlação de logs do Cloud Logging para auditar as decisões tomadas pelo modelo.
