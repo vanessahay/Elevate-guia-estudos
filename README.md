@@ -1,36 +1,65 @@
 # 🚀 Elevate - Repositório de Laboratórios e Guias de Estudo
 
-Este repositório contém a coleção de laboratórios, códigos-fonte, arquiteturas de segurança, simuladores multi-agentes e guias de estudo do treinamento **Elevate** (Google Cloud, ADK 2.0, Vertex AI Agent Runtime, Antigravity, TDD e STRIDE).
+Este repositório contém a coleção completa de laboratórios, códigos-fonte, arquiteturas de segurança, simuladores multi-agentes e guias de estudo do treinamento **Elevate** (Google Cloud, ADK 2.0, Vertex AI Agent Runtime, Antigravity, TDD e STRIDE).
 
 ---
 
 ## 📖 Guia de Estudos Master
 
-Acesse o **Guia de Estudos Completo do Repositório**:
+Acesse o **Guia de Estudos Completo e Consolidado do Repositório**:
 👉 **[📖 GUIA DE ESTUDOS MASTER COMPLETO](./GUIA_DE_ESTUDOS_COMPLETO.md)**
 
 ---
 
-## 📂 Estrutura de Guias e Laboratórios
+## 📂 Estrutura de Laboratórios e Projetos
 
-| Módulo / Laboratório | Descrição | Guia de Estudos | Código-Fonte |
+O repositório está organizado de forma modular dentro da pasta [`labs/`](./labs/), separando o código, os testes e os guias específicos de cada projeto:
+
+```text
+elevate-estudos/
+├── README.md                                    # Índice principal e visão geral
+├── GUIA_DE_ESTUDOS_COMPLETO.md                  # Guia consolidado de todos os módulos
+└── labs/
+    ├── vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/
+    │   ├── guia_de_estudos.md                   # Guia teórico/prático do Lab 1
+    │   ├── threat_model.md                      # Modelagem de ameaças STRIDE
+    │   └── shopping-assistant/                  # Código-fonte, testes e Paved Roads
+    │
+    ├── deploy-travel-policy-agent-to-vertex-ai-agent-runtime/
+    │   ├── guia_de_estudos.md                   # Guia de Estudos & Vertex AI Eval
+    │   ├── Modulo3_Deploy_Agent_Runtime_Guia.md # Guia de Deploy passo a passo
+    │   ├── lab_guide.md                         # Roteiro oficial de laboratório (EN)
+    │   ├── travel_policy_agent/                 # Implementação ADK do agente
+    │   ├── tests/                               # Testes unitários, integração e eval
+    │   ├── skills/agents-cli/                   # Skill do agents-cli para deploy
+    │   └── run_vertex_eval.py                   # Script de avaliação automatizada
+    │
+    └── cymbal-leadership-simulator/
+        ├── README.md                            # Resumo do simulador
+        └── guia_de_estudos.md                   # Arquitetura Multi-Agente & KPIs
+```
+
+---
+
+## 📋 Tabela de Referência Rápida
+
+| Módulo / Laboratório | Descrição | Guias de Estudo | Código & Recursos |
 | :--- | :--- | :---: | :---: |
-| **`vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd`** | Vibecode and Secure an AI Agent Lifecycle with Antigravity and TDD (`shopping-assistant`) | [📖 Guia de Estudos](./labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/guia_de_estudos.md) | [`shopping-assistant/`](./labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/shopping-assistant/) |
-| **`deploy-travel-policy-agent-to-vertex-ai-agent-runtime`** | Deploy & Avaliação do Travel Policy Agent no Vertex AI Agent Runtime (`travel_policy_agent`) | [📖 Guia de Estudos](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/guia_de_estudos.md) | [`travel_policy_agent/`](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/) |
-| **`Cymbal Leadership Simulator`** | Arquitetura Multi-Agente, Leadership Workspace UI, Métricas de KPI & Avaliação de RH | [📖 Guia de Estudos](./Modulo4_Cymbal_Leadership_Simulator_Guia.md) | N/A (Guia de Arquitetura) |
+| **Lab 1: Vibecode & Security** | Ciclo seguro de desenvolvimento de agentes de IA com Antigravity, TDD, STRIDE e Semgrep (`shopping-assistant`). | [📖 Guia do Lab 1](./labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/guia_de_estudos.md)<br>[🛡️ Threat Model](./labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/threat_model.md) | [`shopping-assistant/`](./labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/shopping-assistant/) |
+| **Lab 2: Vertex AI Agent Runtime** | Deploy, empacotamento Docker e avaliação com Vertex AI EvalTask do agente corporativo (`travel_policy_agent`). | [📖 Guia de Estudos & Eval](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/guia_de_estudos.md)<br>[🚀 Guia de Deploy](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/Modulo3_Deploy_Agent_Runtime_Guia.md)<br>[📝 Lab Guide (EN)](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/lab_guide.md) | [`travel_policy_agent/`](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/) |
+| **Módulo Avançado: Leadership Simulator** | Arquitetura Multi-Agente (Diretor de Cenário + Avaliador), Leadership Workspace UI e KPIs dinâmicos. | [📖 Guia de Arquitetura](./labs/cymbal-leadership-simulator/guia_de_estudos.md) | [`cymbal-leadership-simulator/`](./labs/cymbal-leadership-simulator/) |
 
 ---
 
 ### 📌 Conteúdos Abordados:
 - **Agentes de IA (ADK 2.0 & Gemini SDK)**: Construção com `google-adk`, `google-genai`, `agents-cli` e modelos Gemini 3.6/3.8 Flash.
-- **Sistemas Multi-Agentes**: Orquestração de Agente Diretor de Cenário (Agente 1) e Agente Avaliador de Talentos (Agente 2) com pontuação em formato JSON e mecanismo Fail-Safe.
-- **Segurança de Agentes**: Modelagem de ameaças STRIDE, Semgrep, Pre-commit hooks e sanitização.
+- **Sistemas Multi-Agentes**: Orquestração entre Agente Diretor de Cenário (Agente 1) e Agente Avaliador de Talentos (Agente 2) com pontuação estruturada em JSON e mecanismo Fail-Safe.
+- **Segurança Ofensiva e Defensiva**: Modelagem de ameaças STRIDE, Semgrep, Pre-commit hooks e sanitização de inputs/outputs.
 - **Engenharia de Qualidade**: Test-Driven Development (TDD) com `pytest`, linters estáticos (`ruff`, `codespell`, `ty`).
 - **Nuvem & Serverless**: Deploy containerizado no Vertex AI Agent Runtime (`agent_runtime` / Reasoning Engine) e registro no Gemini Enterprise Platform.
 
 ---
 
 ### 📌 Como navegar:
-1. Abra o **[GUIA_DE_ESTUDOS_COMPLETO.md](./GUIA_DE_ESTUDOS_COMPLETO.md)** para uma visão geral integrada de todos os módulos.
-2. Acesse o **[Modulo4_Cymbal_Leadership_Simulator_Guia.md](./Modulo4_Cymbal_Leadership_Simulator_Guia.md)** para ler o resumo e a documentação completa da simulação de liderança.
-3. Navegue até as pastas em `labs/` para acessar os exercícios práticos e arquivos de configuração específicos.
+1. Abra o **[GUIA_DE_ESTUDOS_COMPLETO.md](./GUIA_DE_ESTUDOS_COMPLETO.md)** para uma visão geral integrada e detalhada de todo o currículo.
+2. Acesse cada laboratório dentro de [`labs/`](./labs/) para navegar pelo código-fonte, suítes de teste e instruções específicas.

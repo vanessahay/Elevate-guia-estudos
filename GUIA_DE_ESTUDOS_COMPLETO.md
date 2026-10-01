@@ -330,5 +330,5 @@ agents-cli deploy --project <PROJECT_ID> --region us-central1 --no-confirm-proje
 1. **Nunca insira chaves de API no código**: Use variáveis de ambiente e configure linters/semgrep no pre-commit.
 2. **Defina Security Boundaries claras**: Utilize a pasta `.agents/` e arquivos `CONTEXT.md` para delimitar o comportamento e as restrições das ferramentas executadas por LLMs.
 3. **Escreva testes antes de refatorar (TDD)**: Assegure que as chamadas de ferramentas tratam abusos de entradas, repetições de chamadas e falta de permissões.
-4. **Isenção de Inchaço no Repositório**: Mantenha repositórios de documentação e guias de estudo limpos de pastas de código de projetos paralelos, documentando a arquitetura em guias markdown limpos (`Modulo4_...md`).
+4. **Isenção de Inchaço no Repositório**: Mantenha repositórios de documentação e guias de estudo limpos de pastas de código de projetos paralelos, documentando a arquitetura em guias markdown limpos e modulares (`labs/cymbal-leadership-simulator/`).
 5. **Implemente Mecanismos Fail-Safe em Sistemas Multi-Agentes**: Garanta contadores de turnos ou timeouts para disparar avaliações de encerramento caso a tag de finalização do modelo não seja emitida.
