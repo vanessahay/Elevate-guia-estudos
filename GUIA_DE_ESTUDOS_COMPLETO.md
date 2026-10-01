@@ -21,14 +21,20 @@ Este documento é o **Guia de Estudos Master** consolidado de todas as atividade
    - [3.4 Deploy no Vertex AI Agent Runtime](#34-deploy-no-vertex-ai-agent-runtime)
    - [3.5 Testes de Conformidade e Validação Live](#35-testes-de-conformidade-e-validação-live)
    - [3.6 Registro no Gemini Enterprise App](#36-registro-no-gemini-enterprise-app)
-4. [Projeto Avançado: Cymbal Leadership Simulator (Simulador Multi-Agente)](#4-projeto-avançado-cymbal-leadership-simulator-simulador-multi-agente)
-   - [4.1 Visão Geral e Conceito da Simulação](#41-visão-geral-e-conceito-da-simulação)
-   - [4.2 O "Leadership Workspace" UI e Métricas de KPI](#42-o-leadership-workspace-ui-e-métricas-de-kpi)
-   - [4.3 Sistema Multi-Agente (Diretor de Cenário e Avaliador de Talentos)](#43-sistema-multi-agente-diretor-de-cenário-e-avaliador-de-talentos)
-   - [4.4 Gerenciamento de Estado e Graduação Fail-Safe](#44-gerenciamento-de-estado-e-graduação-fail-safe)
-   - [4.5 Endpoints REST e Execução Local](#45-endpoints-rest-e-execução-local)
-5. [Cheatsheet de Comandos Essenciais](#5-cheatsheet-de-comandos-essenciais)
-6. [Boas Práticas Consolidadas](#6-boas-práticas-consolidadas)
+4. [Laboratório 3: Agente de Análise de Despesas de Viagem (GCS & AlloyDB Analytics)](#4-laboratório-3-agente-de-análise-de-despesas-de-viagem-gcs--alloydb-analytics)
+   - [4.1 Arquitetura do Agente ADK (`travel_expense_analytics_agent`)](#41-arquitetura-do-agente-adk-travel_expense_analytics_agent)
+   - [4.2 Ingestão Multimodal de Recibos no Cloud Storage (`gcs_expense_processor`)](#42-ingestão-multimodal-de-recibos-no-cloud-storage-gcs_expense_processor)
+   - [4.3 Análise de Dados Estruturados em AlloyDB PostgreSQL (`alloydb_expense_analytics`)](#43-análise-de-dados-estruturados-em-alloydb-postgresql-alloydb_expense_analytics)
+   - [4.4 Configuração de Segurança e Conexão IAM (`.env`)](#44-configuração-de-segurança-e-conexão-iam-env)
+   - [4.5 Execução via ADK CLI e ADK Web UI](#45-execução-via-adk-cli-e-adk-web-ui)
+5. [Projeto Avançado: Cymbal Leadership Simulator (Simulador Multi-Agente)](#5-projeto-avançado-cymbal-leadership-simulator-simulador-multi-agente)
+   - [5.1 Visão Geral e Conceito da Simulação](#51-visão-geral-e-conceito-da-simulação)
+   - [5.2 O "Leadership Workspace" UI e Métricas de KPI](#52-o-leadership-workspace-ui-e-métricas-de-kpi)
+   - [5.3 Sistema Multi-Agente (Diretor de Cenário e Avaliador de Talentos)](#53-sistema-multi-agente-diretor-de-cenário-e-avaliador-de-talentos)
+   - [5.4 Gerenciamento de Estado e Graduação Fail-Safe](#54-gerenciamento-de-estado-e-graduação-fail-safe)
+   - [5.5 Endpoints REST e Execução Local](#55-endpoints-rest-e-execução-local)
+6. [Cheatsheet de Comandos Essenciais](#6-cheatsheet-de-comandos-essenciais)
+7. [Boas Práticas Consolidadas](#7-boas-práticas-consolidadas)
 
 ---
 
@@ -241,9 +247,81 @@ agents-cli deploy \
 
 ---
 
-## 4. Projeto Avançado: Cymbal Leadership Simulator (Simulador Multi-Agente)
+## 4. Laboratório 3: Agente de Análise de Despesas de Viagem (GCS & AlloyDB Analytics)
 
-### 4.1 Visão Geral e Conceito da Simulação
+**Projeto Target**: `labs/travel-expense-analytics-agent/travel_expense_analytics_agent/`
+
+### 4.1 Arquitetura do Agente ADK (`travel_expense_analytics_agent`)
+O agente combina duas capacidades essenciais do ecossistema Google Cloud: a ingestão multimodal não estruturada de comprovantes físicos (PNG/PDF) armazenados em buckets do **Google Cloud Storage** e a análise relacional analítica de banco de dados no **AlloyDB PostgreSQL**.
+
+#### Componentes Fundamentais (`travel_expense_analytics_agent/agent.py`):
+- **Modelo LLM**: `gemini-3.6-flash`
+* **Custom Tools**: `gcs_expense_processor` e `alloydb_expense_analytics`
+- **Ambiente de Execução**: Google ADK 2.0 CLI e ADK Web UI
+
+---
+
+### 4.2 Ingestão Multimodal de Recibos no Cloud Storage (`gcs_expense_processor`)
+Itera sobre todos os comprovantes e recibos presentes no bucket GCS (`gs://qwiklabs-gcp-00-ae747d64a28b-cepf/cymbal_group_expenses/`), utiliza o cliente Gemini 3.6 Flash para extração multimodal com Pydantic (`ExpenseDocument`) e classifica cada arquivo em exatamente uma categoria:
+- `taxi invoice`
+- `hotel bill`
+- `flight booking`
+
+Extrai também a data (`YYYY-MM-DD`) e o valor em USD (`float`), gerando o arquivo `travel_receipts.json` no bucket.
+
+---
+
+### 4.3 Análise de Dados Estruturados em AlloyDB PostgreSQL (`alloydb_expense_analytics`)
+Conecta ao banco de dados relacional **AlloyDB PostgreSQL** via `google-cloud-alloydb-connector` com autenticação IAM e IP Público.
+Garante a importação da tabela `travel_expenses` a partir do dump SQL caso a tabela ainda não esteja populada, e executa a seguinte consulta de agregação para 2025:
+
+```sql
+SELECT 
+    team AS team_name,
+    EXTRACT(MONTH FROM expense_date)::INTEGER AS month,
+    SUM(amount) AS total_amount_usd
+FROM travel_expenses
+WHERE EXTRACT(YEAR FROM expense_date) = 2025
+GROUP BY team, EXTRACT(MONTH FROM expense_date)
+ORDER BY team_name, month;
+```
+
+A ferramenta exibe o resultado em uma tabela Markdown limpa e salva a saída consolidada como `travel_expenses.json` no bucket do GCS.
+
+---
+
+### 4.4 Configuração de Segurança e Conexão IAM (`.env`)
+Carrega as variáveis de ambiente necessárias para Vertex AI e AlloyDB Connector:
+```env
+GOOGLE_GENAI_USE_VERTEXAI=TRUE
+GOOGLE_CLOUD_PROJECT=qwiklabs-gcp-00-ae747d64a28b
+GOOGLE_CLOUD_LOCATION=global
+
+ALLOYDB_INSTANCE=projects/qwiklabs-gcp-00-ae747d64a28b/locations/us-central1/clusters/cepf-elevate-expenses/instances/cepf-elevate-expenses-primary
+ALLOYDB_USER=student-04-1bcca417bfd3@qwiklabs.net
+ALLOYDB_DATABASE=postgres
+ALLOYDB_HOST=34.134.134.186
+ALLOYDB_PORT=5432
+ALLOYDB_PASSWORD=Password01
+GOOGLE_API_USE_MTLS=never
+```
+
+---
+
+### 4.5 Execução via ADK CLI e ADK Web UI
+```bash
+# Execução via CLI do ADK
+adk run travel_expense_analytics_agent "Show me a report of all travel expenses grouped by team and month for 2025 from AlloyDB and store output in travel_expenses.json file in the same Cloud Storage bucket."
+
+# Iniciar servidor Web UI local na porta 8000
+adk web
+```
+
+---
+
+## 5. Projeto Avançado: Cymbal Leadership Simulator (Simulador Multi-Agente)
+
+### 5.1 Visão Geral e Conceito da Simulação
 O **Cymbal Leadership Simulator** é um ambiente interativo e gamificado de avaliação de liderança e RH para a Cymbal AI. Em vez de testes de código convencionais, o candidato enfrenta 3 fases sequenciais de crise de equipe:
 - **Fase 1 (The Dispute)**: Mediação de conflito técnico entre o Arquiteto Líder Dev A e o Engenheiro Senior Dev B.
 - **Fase 2 (The Crunch Time Dilemma)**: Escolha sob pressão entre exigir overtime de fim de semana ou negociar aditamento de prazo com stakeholders.
@@ -251,7 +329,7 @@ O **Cymbal Leadership Simulator** é um ambiente interativo e gamificado de aval
 
 ---
 
-### 4.2 O "Leadership Workspace" UI e Métricas de KPI
+### 5.2 O "Leadership Workspace" UI e Métricas de KPI
 A interface do candidato é um painel corporativo dividido em 3 módulos em tempo real:
 - **Leadership KPIs**: Visualizadores animados com barras de progresso para **Team Morale (70%)**, **Productivity (80%)** e **Burnout Risk (30%)**.
 - **Crisis Inbox & Memos**: E-mails e relatórios de crise desbloqueados dinamicamente a cada fase.
@@ -259,7 +337,7 @@ A interface do candidato é um painel corporativo dividido em 3 módulos em temp
 
 ---
 
-### 4.3 Sistema Multi-Agente (Diretor de Cenário e Avaliador de Talentos)
+### 5.3 Sistema Multi-Agente (Diretor de Cenário e Avaliador de Talentos)
 1. **Agente 1 (Scenario Director & HR Coach)**:
    - Alimentado por `gemini-3.6-flash`.
    - Conduz o candidato pelas 3 fases e emite a tag `[SIMULATION_COMPLETE]` ao final da resposta da Fase 3.
@@ -270,19 +348,19 @@ A interface do candidato é um painel corporativo dividido em 3 módulos em temp
 
 ---
 
-### 4.4 Gerenciamento de Estado e Graduação Fail-Safe
+### 5.4 Gerenciamento de Estado e Graduação Fail-Safe
 - **Lógica de KPIs**: Abordagens empáticas elevam a Moral e reduzem o Burnout, enquanto abordagens autoritárias elevam a Produtividade a custo de aumento no Burnout.
 - **Fail-Safe Graduation**: Se o candidato interagir por 3 turnos no chat, o backend encerra automaticamente a simulação e dispara o Agente 2, garantindo o fim gracioso da sessão mesmo se a tag de conclusão for omitida.
 
 ---
 
-### 4.5 Endpoints REST e Execução Local
+### 5.5 Endpoints REST e Execução Local
 - **Endpoints FastAPI**: `GET /api/state`, `POST /api/chat`, `POST /api/evaluate`, `POST /api/reset`.
 - **Launcher**: Script `run_local.sh` que orquestra a execução simultânea do backend FastAPI na porta `8000` e do servidor estático frontend na porta `3002`.
 
 ---
 
-## 5. Cheatsheet de Comandos Essenciais
+## 6. Cheatsheet de Comandos Essenciais
 
 ### Gestão de Ambiente e Agente Local
 ```bash
@@ -325,10 +403,11 @@ agents-cli deploy --project <PROJECT_ID> --region us-central1 --no-confirm-proje
 
 ---
 
-## 6. Boas Práticas Consolidadas
+## 7. Boas Práticas Consolidadas
 
 1. **Nunca insira chaves de API no código**: Use variáveis de ambiente e configure linters/semgrep no pre-commit.
 2. **Defina Security Boundaries claras**: Utilize a pasta `.agents/` e arquivos `CONTEXT.md` para delimitar o comportamento e as restrições das ferramentas executadas por LLMs.
 3. **Escreva testes antes de refatorar (TDD)**: Assegure que as chamadas de ferramentas tratam abusos de entradas, repetições de chamadas e falta de permissões.
 4. **Isenção de Inchaço no Repositório**: Mantenha repositórios de documentação e guias de estudo limpos de pastas de código de projetos paralelos, documentando a arquitetura em guias markdown limpos e modulares (`labs/cymbal-leadership-simulator/`).
 5. **Implemente Mecanismos Fail-Safe em Sistemas Multi-Agentes**: Garanta contadores de turnos ou timeouts para disparar avaliações de encerramento caso a tag de finalização do modelo não seja emitida.
+
