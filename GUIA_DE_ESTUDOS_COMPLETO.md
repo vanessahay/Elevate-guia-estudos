@@ -1,6 +1,6 @@
 # 🎓 Guia de Estudos Completo - Programa Elevate
 
-Este documento é o **Guia de Estudos Master** consolidado de todas as atividades, projetos, práticas de segurança, arquiteturas e deploys realizados no laboratório **Elevate**.
+Este documento é o **Guia de Estudos Master** consolidado de todas as atividades, projetos, práticas de segurança, arquiteturas, simuladores e deploys realizados no laboratório **Elevate**.
 
 ---
 
@@ -21,22 +21,28 @@ Este documento é o **Guia de Estudos Master** consolidado de todas as atividade
    - [3.4 Deploy no Vertex AI Agent Runtime](#34-deploy-no-vertex-ai-agent-runtime)
    - [3.5 Testes de Conformidade e Validação Live](#35-testes-de-conformidade-e-validação-live)
    - [3.6 Registro no Gemini Enterprise App](#36-registro-no-gemini-enterprise-app)
-4. [Cheatsheet de Comandos Essenciais](#4-cheatsheet-de-comandos-essenciais)
-5. [Boas Práticas Consolidadas](#5-boas-práticas-consolidadas)
+4. [Projeto Avançado: Cymbal Leadership Simulator (Simulador Multi-Agente)](#4-projeto-avançado-cymbal-leadership-simulator-simulador-multi-agente)
+   - [4.1 Visão Geral e Conceito da Simulação](#41-visão-geral-e-conceito-da-simulação)
+   - [4.2 O "Leadership Workspace" UI e Métricas de KPI](#42-o-leadership-workspace-ui-e-métricas-de-kpi)
+   - [4.3 Sistema Multi-Agente (Diretor de Cenário e Avaliador de Talentos)](#43-sistema-multi-agente-diretor-de-cenário-e-avaliador-de-talentos)
+   - [4.4 Gerenciamento de Estado e Graduação Fail-Safe](#44-gerenciamento-de-estado-e-graduação-fail-safe)
+   - [4.5 Endpoints REST e Execução Local](#45-endpoints-rest-e-execução-local)
+5. [Cheatsheet de Comandos Essenciais](#5-cheatsheet-de-comandos-essenciais)
+6. [Boas Práticas Consolidadas](#6-boas-práticas-consolidadas)
 
 ---
 
 ## 1. Visão Geral do Ecossistema
 
-O repositório **Elevate** combina o desenvolvimento moderno de **Agentes Inteligentes Conversacionais e de Raciocínio (Reasoning Engines)** integrando boas práticas de engenharia de software, Test-Driven Development (TDD), modelagem de segurança ofensiva/defensiva (STRIDE), e implantação serverless gerenciada no **Google Cloud Vertex AI Agent Runtime** e **Gemini Enterprise Platform**.
+O repositório **Elevate** combina o desenvolvimento moderno de **Agentes Inteligentes Conversacionais, de Raciocínio (Reasoning Engines) e Simuladores Multi-Agentes** integrando boas práticas de engenharia de software, Test-Driven Development (TDD), modelagem de segurança ofensiva/defensiva (STRIDE), e implantação serverless gerenciada no **Google Cloud Vertex AI Agent Runtime** e **Gemini Enterprise Platform**.
 
 ### Principais Tecnologias Utilizadas:
-- **Linguagem & Ambiente**: Python 3.12 / 3.13, `uv` (Rust-based Python package manager).
-- **Framework de Agentes**: Google Agent Development Kit (**ADK 2.0** - `google-adk`).
+- **Linguagem & Ambiente**: Python 3.12 / 3.13 / 3.14, `uv` (Rust-based Python package manager).
+- **Framework de Agentes**: Google Agent Development Kit (**ADK 2.0** - `google-adk`), Gemini SDK (`google-genai`).
 - **Modelos de Linguagem**: `gemini-3.8-flash` e `gemini-3.6-flash`.
 - **Tooling de Agentes**: `google-agents-cli` (`agents-cli`).
 - **Segurança & Qualidade**: Semgrep, Pre-commit hooks, Pytest, Ruff, Codespell, Ty.
-- **Nuvem & Runtime**: Google Cloud Platform (GCP), Vertex AI Agent Runtime (`agent_runtime` / Reasoning Engines), Gemini Enterprise Applications, Cloud Build, Docker, FastAPI.
+- **Nuvem & Runtime**: Google Cloud Platform (GCP), Vertex AI Agent Runtime (`agent_runtime` / Reasoning Engines), Gemini Enterprise Applications, Cloud Build, Docker, FastAPI, Uvicorn.
 
 ---
 
@@ -221,23 +227,9 @@ agents-cli deploy \
   --no-confirm-project
 ```
 
-#### Resultado da Implantação:
-- **Status**: ✅ `Deployment successful!`
-- **Target Resource ID**: `projects/<PROJECT_NUMBER>/locations/us-central1/reasoningEngines/<REASONING_ENGINE_ID>`
-- **Arquivo de Metadados**: `deployment_metadata.json`
-
 ---
 
 ### 3.5 Testes de Conformidade e Validação Live
-
-Após o deploy, o agente em nuvem foi submetido a 3 testes rigorosos de política corporativa:
-
-```bash
-agents-cli run \
-  --url "https://us-central1-aiplatform.googleapis.com/v1/projects/<PROJECT_ID>/locations/us-central1/reasoningEngines/<ENGINE_ID>" \
-  --mode adk \
-  "<Pergunta de Teste>"
-```
 
 #### Tabela de Resultados dos Testes de Conformidade:
 
@@ -249,15 +241,48 @@ agents-cli run \
 
 ---
 
-### 3.6 Registro no Gemini Enterprise App
+## 4. Projeto Avançado: Cymbal Leadership Simulator (Simulador Multi-Agente)
 
-1. **Criação do App Gemini Enterprise**: `Cymbal HR Policy Concierge`.
-2. **Mapeamento do Backend**: Associação do Reasoning Engine implantado ao canal de chat do Gemini Enterprise.
-3. **Validação via API e Portal**: Consulta end-to-end com token OAuth2 gerado via `gcloud auth print-access-token`.
+### 4.1 Visão Geral e Conceito da Simulação
+O **Cymbal Leadership Simulator** é um ambiente interativo e gamificado de avaliação de liderança e RH para a Cymbal AI. Em vez de testes de código convencionais, o candidato enfrenta 3 fases sequenciais de crise de equipe:
+- **Fase 1 (The Dispute)**: Mediação de conflito técnico entre o Arquiteto Líder Dev A e o Engenheiro Senior Dev B.
+- **Fase 2 (The Crunch Time Dilemma)**: Escolha sob pressão entre exigir overtime de fim de semana ou negociar aditamento de prazo com stakeholders.
+- **Fase 3 (The Feedback Session)**: Formulação de feedback construtivo para um colaborador com queda de desempenho.
 
 ---
 
-## 4. Cheatsheet de Comandos Essenciais
+### 4.2 O "Leadership Workspace" UI e Métricas de KPI
+A interface do candidato é um painel corporativo dividido em 3 módulos em tempo real:
+- **Leadership KPIs**: Visualizadores animados com barras de progresso para **Team Morale (70%)**, **Productivity (80%)** e **Burnout Risk (30%)**.
+- **Crisis Inbox & Memos**: E-mails e relatórios de crise desbloqueados dinamicamente a cada fase.
+- **Communication Hub**: Interface estilo Slack (`#team-crisis-room`) para conversa direta com o assistente de RH.
+
+---
+
+### 4.3 Sistema Multi-Agente (Diretor de Cenário e Avaliador de Talentos)
+1. **Agente 1 (Scenario Director & HR Coach)**:
+   - Alimentado por `gemini-3.6-flash`.
+   - Conduz o candidato pelas 3 fases e emite a tag `[SIMULATION_COMPLETE]` ao final da resposta da Fase 3.
+2. **Agente 2 (Talent Evaluator)**:
+   - Alimentado por `gemini-3.6-flash`.
+   - Disparado automaticamente ao término da simulação.
+   - Analisa o transcript completo contra a rubrica de RH e gera um Scorecard JSON balanceado e realista contendo `overall_rating` ("Strong Leader", "Developing", "Needs Support"), `score_breakdown` (0-100 por competência), `strengths`, `areas_for_growth` e `summary_verdict`.
+
+---
+
+### 4.4 Gerenciamento de Estado e Graduação Fail-Safe
+- **Lógica de KPIs**: Abordagens empáticas elevam a Moral e reduzem o Burnout, enquanto abordagens autoritárias elevam a Produtividade a custo de aumento no Burnout.
+- **Fail-Safe Graduation**: Se o candidato interagir por 3 turnos no chat, o backend encerra automaticamente a simulação e dispara o Agente 2, garantindo o fim gracioso da sessão mesmo se a tag de conclusão for omitida.
+
+---
+
+### 4.5 Endpoints REST e Execução Local
+- **Endpoints FastAPI**: `GET /api/state`, `POST /api/chat`, `POST /api/evaluate`, `POST /api/reset`.
+- **Launcher**: Script `run_local.sh` que orquestra a execução simultânea do backend FastAPI na porta `8000` e do servidor estático frontend na porta `3002`.
+
+---
+
+## 5. Cheatsheet de Comandos Essenciais
 
 ### Gestão de Ambiente e Agente Local
 ```bash
@@ -266,9 +291,6 @@ uv venv -p 3.13 .venv && source .venv/bin/activate
 
 # Instalar ferramentas de agente
 uvx google-agents-cli setup
-
-# Criar novo agente via scaffold
-agents-cli scaffold create <agent-name> --agent adk --prototype -y
 
 # Executar verificadores estáticos e linter
 agents-cli lint
@@ -289,28 +311,24 @@ pre-commit install
 semgrep --config=.semgrep/rules.yaml .
 ```
 
-### Cloud Build e Deploy no Vertex AI
+### Cloud Build, Deploy e Simuladores
 ```bash
 # Compilar dependências
 uv pip compile pyproject.toml -o requirements.txt
 
-# Autenticação Google Cloud
-gcloud auth login
-gcloud auth application-default login
-
 # Deploy do agente no Vertex AI Agent Runtime
 agents-cli deploy --project <PROJECT_ID> --region us-central1 --no-confirm-project
 
-# Testar endpoint remoto live
-agents-cli run --url "<REASONING_ENGINE_URL>" --mode adk "<Pergunta>"
+# Executar o Cymbal Leadership Simulator localmente
+./run_local.sh
 ```
 
 ---
 
-## 5. Boas Práticas Consolidadas
+## 6. Boas Práticas Consolidadas
 
 1. **Nunca insira chaves de API no código**: Use variáveis de ambiente e configure linters/semgrep no pre-commit.
 2. **Defina Security Boundaries claras**: Utilize a pasta `.agents/` e arquivos `CONTEXT.md` para delimitar o comportamento e as restrições das ferramentas executadas por LLMs.
 3. **Escreva testes antes de refatorar (TDD)**: Assegure que as chamadas de ferramentas tratam abusos de entradas, repetições de chamadas e falta de permissões.
-4. **Mantenha dependências compiladas deterministicamente**: Use `uv pip compile` para gerar arquivos `requirements.txt` exatos e reprodutíveis em contêineres Cloud Build.
-5. **Valide endpoints de runtime serverless**: Certifique-se de que a aplicação FastAPI atende tanto às rotas de chat locais quanto aos métodos invocados pela plataforma (`/api/reasoning_engine`).
+4. **Isenção de Inchaço no Repositório**: Mantenha repositórios de documentação e guias de estudo limpos de pastas de código de projetos paralelos, documentando a arquitetura em guias markdown limpos (`Modulo4_...md`).
+5. **Implemente Mecanismos Fail-Safe em Sistemas Multi-Agentes**: Garanta contadores de turnos ou timeouts para disparar avaliações de encerramento caso a tag de finalização do modelo não seja emitida.
