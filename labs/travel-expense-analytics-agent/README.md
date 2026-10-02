@@ -1,30 +1,25 @@
-# 🚀 Travel Expense Analytics Agent (ADK 2.0 & AlloyDB & GCS)
+# 💼 Lab 3.5: Agente de Análise de Despesas de Viagem (GCS & AlloyDB Analytics)
 
-Este laboratório faz parte do currículo **Elevate**. Ele implementa o agente de IA **`travel_expense_analytics_agent`** responsável por:
+* **ID do Laboratório**: `65280141` (`Connect Agents to Unstructured and Structured Data Sources`)
+* **Trilha Oficial**: `[ELEVATE]: Advanced Agentic AI` (Course Template `1738435`)
 
-1. **Ingestão Multimodal de Recibos Não Estruturados (Fase 1)**: Processar imagens e PDFs de comprovantes de viagem armazenados no Google Cloud Storage, classificando-os com o modelo **Gemini 3.6 Flash** e gravando `travel_receipts.json`.
-2. **Análise de Dados Estruturados em AlloyDB PostgreSQL (Fase 2)**: Conectar ao AlloyDB via `google-cloud-alloydb-connector` com autenticação IAM e IP Público, executando consultas SQL agregadas para 2025 agrupadas por equipe e mês (`SUM(amount_usd)`), apresentando relatórios em tabela Markdown e gravando `travel_expenses.json`.
-
----
-
-## 📂 Estrutura de Arquivos
-
-```text
-labs/travel-expense-analytics-agent/
-├── README.md                                    # Visão geral do laboratório
-├── guia_de_estudos.md                           # Guia completo teórico e prático (Módulos 1-7)
-├── pyproject.toml                               # Configuração do projeto e dependências Python
-├── requirements.txt                             # Arquivo de dependências compiladas
-└── travel_expense_analytics_agent/              # Pacote do agente ADK
-    ├── __init__.py                              # Ponto de entrada do pacote
-    ├── agent.py                                 # Definição do Agent e instrução principal
-    ├── tools.py                                 # Implementação dos custom tools (GCS & AlloyDB)
-    └── .env.example                             # Modelo de arquivo de variáveis de ambiente
-```
+Este diretório armazena a implementação completa em Python e a documentação detalhada do **Travel Expense Analytics Agent** (`travel_expense_analytics_agent`), desenvolvido com **Google ADK 2.0** e **Gemini 3.6 Flash**.
 
 ---
 
-## 📖 Guia de Estudos Completo
+## 📌 Documentação e Guias
 
-Para uma explicação passo a passo com diagramas de arquitetura, mapeamento SQL e comandos hands-on, consulte:
-👉 **[📖 Guia de Estudos do Agente de Despesas de Viagem](./guia_de_estudos.md)**
+- 👉 **[📖 Guia de Estudos Hands-On e Código (Este Diretório)](./guia_de_estudos.md)**
+- 👉 **[📖 Guia Arquitetural e Activity Trackers do Lab 3.5 (`65280141`)](../module3-connect-agents-unstructured-structured-data/guia_de_estudos.md)**
+- 👉 **[📖 Guia de Estudos Completo Consolidado (Raiz)](../../GUIA_DE_ESTUDOS_COMPLETO.md)**
+
+---
+
+## 📂 Estrutura de Código
+
+- [`travel_expense_analytics_agent/agent.py`](./travel_expense_analytics_agent/agent.py): Definição do `root_agent` e instruções de sistema para formatação em Markdown.
+- [`travel_expense_analytics_agent/tools.py`](./travel_expense_analytics_agent/tools.py): Implementação das ferramentas customizadas:
+  - `gcs_expense_processor`: Extração multimodal estruturada de recibos (PNG/PDF) armazenados no Google Cloud Storage usando schemas Pydantic (`ExpenseDocument`).
+  - `alloydb_expense_analytics`: Conexão segura com o **AlloyDB for PostgreSQL** via `google-cloud-alloydb-connector` e `pg8000` para agregação de despesas de viagem por equipe e mês em 2025.
+- [`travel_expense_analytics_agent/.env.example`](./travel_expense_analytics_agent/.env.example): Modelo de variáveis de ambiente para conexão ao Vertex AI e instância AlloyDB.
+- [`pyproject.toml`](./pyproject.toml) / [`requirements.txt`](./requirements.txt): Dependências do projeto (`google-adk`, `google-genai`, `google-cloud-storage`, `google-cloud-alloydb-connector[pg8000]`).

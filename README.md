@@ -1,72 +1,69 @@
-# 🚀 Elevate - Repositório de Laboratórios e Guias de Estudo
+# 🚀 Elevate - Repositório Completo de Laboratórios e Guias de Estudo
 
-Este repositório contém a coleção completa de laboratórios, códigos-fonte, arquiteturas de segurança, simuladores multi-agentes e guias de estudo do treinamento **Elevate** (Google Cloud, ADK 2.0, Vertex AI Agent Runtime, AlloyDB PostgreSQL, Antigravity, TDD e STRIDE).
+Este repositório contém a coleção completa e documentada dos **15 laboratórios** da trilha oficial **[ELEVATE]: Advanced Agentic AI** (Course Template [`1738435`](https://explore.qwiklabs.com/course_templates/1738435)), cobrindo desenvolvimento com Google ADK 2.0, Google Antigravity 2.0, Vertex AI Agent Runtime, Gemini Enterprise Agent Platform (GEAP), Harness Engineering, TDD, STRIDE, VulnHawk CodeMender e arquiteturas multi-agentes.
 
 ---
 
 ## 📖 Guia de Estudos Master
 
-Acesse o **Guia de Estudos Completo e Consolidado do Repositório**:
+Acesse o **Guia de Estudos Completo e Consolidado com Todos os Módulos**:
 👉 **[📖 GUIA DE ESTUDOS MASTER COMPLETO](./GUIA_DE_ESTUDOS_COMPLETO.md)**
 
 ---
 
-## 📂 Estrutura de Laboratórios e Projetos
+## 📋 Matriz Completa dos 15 Laboratórios da Trilha (`1738435`)
 
-O repositório está organizado de forma modular dentro da pasta [`labs/`](./labs/), separando o código, os testes e os guias específicos de cada projeto:
+| Módulo & # | Lab ID | Título do Laboratório | Paradigma | Recursos, Guias e Código |
+| :--- | :---: | :--- | :---: | :--- |
+| **Módulo 0** (Lab 0) | `65280129` | **Build LaunchPad with an Agentic Workflow** | Guided Procedural | [📖 Guia do Lab 0](./labs/module0-build-launchpad-with-agentic-workflow/guia_de_estudos.md) |
+| **Módulo 1** (Lab 1.1) | `65280130` | **Modernizing Google Cloud Workloads via Agentic Tools** | Guided Procedural | [📖 Guia do Lab 1.1](./labs/module1-modernizing-gcp-workloads/guia_de_estudos.md) |
+| **Módulo 1** (Lab 1.2) | `65280131` | **Diagnose and Remediate Multi-Region Cloud Outages** | **Break-Fix Diagnostic** | [📖 Guia do Lab 1.2](./labs/diagnose-and-remediate-multi-region-cloud-outages/guia_de_estudos.md) |
+| **Módulo 1** (Lab 1.3) | `65280132` | **Compare AWS to Google Cloud and Generate Terraform** | Guided Procedural | [📖 Guia do Lab 1.3](./labs/module1-aws-to-gcp-terraform-migration/guia_de_estudos.md) |
+| **Módulo 1** (Lab 1.4) | `65280133` | **Use Gemini in a Terminal for Enterprise Workflows** | Guided Procedural | [📖 Guia do Lab 1.4](./labs/module1-gemini-terminal-enterprise-workflows/guia_de_estudos.md) |
+| **Módulo 2** (Lab 2.1) | `65280134` | **Vibecode & Secure an AI Agent Lifecycle with TDD** | Conversational / TDD | [📖 Guia do Lab 2.1](./labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/guia_de_estudos.md)<br>[💻 Código (`shopping-assistant`)](./labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/shopping-assistant/) |
+| **Módulo 2** (Lab 2.2) | `65280135` | **Vulnerability Scanning and Remediation with CodeMender** | Guided Procedural | [📖 Guia do Lab 2.2](./labs/module2-vulnerability-scanning-codemender/guia_de_estudos.md) |
+| **Módulo 2** (Lab 2.3) | `65280136` | **Build Continuous Remediation Guardrails with CodeMender - V2** | Guided Procedural | [📖 Guia do Lab 2.3](./labs/module2-continuous-remediation-guardrails/guia_de_estudos.md) |
+| **Módulo 3** (Lab 3.1) | `65280137` | **Build a Policy Agent with ADK** | Conversational / TDD | [📖 Guia do Lab 3.1](./labs/module3-build-policy-agent-adk/guia_de_estudos.md) |
+| **Módulo 3** (Lab 3.2) | `65280138` | **Deploy Policy Agent to Agent Runtime & Registry** | Guided Procedural | [📖 Guia do Lab 3.2](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/guia_de_estudos.md)<br>[💻 Código (`travel_policy_agent`)](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/) |
+| **Módulo 3** (Lab 3.3) | `65280139` | **Implement Agent Evaluation with GEAP** | Guided Procedural | [📖 Guia do Lab 3.3](./labs/module3-agent-evaluation-geap/guia_de_estudos.md)<br>[💻 Script (`run_vertex_eval.py`)](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/run_vertex_eval.py) |
+| **Módulo 3** (Lab 3.4) | `65280140` | **Build an AI-Powered Leadership Simulator with Antigravity** | Conversational / TDD | [📖 Guia do Lab 3.4](./labs/cymbal-leadership-simulator/guia_de_estudos.md) |
+| **Módulo 3** (Lab 3.5) | `65280141` | **Connect Agents to Unstructured and Structured Data Sources** | Guided Procedural | [📖 Guia Arquitetural](./labs/module3-connect-agents-unstructured-structured-data/guia_de_estudos.md)<br>[📖 Guia & Código (`travel_expense_analytics_agent`)](./labs/travel-expense-analytics-agent/) |
+| **Módulo 3** (Lab 3.6) | `65280142` | **GEAP Policy Agent Performance & Cost Optimization** | **Break-Fix Diagnostic** | [📖 Guia do Lab 3.6](./labs/module3-geap-policy-agent-performance-cost-optimization/guia_de_estudos.md) |
+| **Módulo 3** (Lab 3.7) | `65280143` | **Building and Deploying Agentic Systems - Challenge Lab** | **Challenge Lab** | [📖 Guia do Lab 3.7](./labs/module3-challenge-lab-building-and-deploying-agentic-systems/guia_de_estudos.md)<br>[📘 Walkthrough (`lab_guide.md`)](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/lab_guide.md) |
+
+---
+
+## 📂 Estrutura de Diretórios do Repositório
 
 ```text
-elevate-estudos/
-├── README.md                                    # Índice principal e visão geral
-├── GUIA_DE_ESTUDOS_COMPLETO.md                  # Guia consolidado de todos os módulos
+Elevate-guia-estudos/
+├── README.md                                                                 # Matriz e índice geral dos 15 laboratórios
+├── GUIA_DE_ESTUDOS_COMPLETO.md                                               # Guia unificado e enciclopédico
 └── labs/
-    ├── vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/
-    │   ├── guia_de_estudos.md                   # Guia teórico/prático do Lab 1
-    │   ├── threat_model.md                      # Modelagem de ameaças STRIDE
-    │   └── shopping-assistant/                  # Código-fonte, testes e Paved Roads
-    │
-    ├── deploy-travel-policy-agent-to-vertex-ai-agent-runtime/
-    │   ├── guia_de_estudos.md                   # Guia de Estudos & Vertex AI Eval
-    │   ├── Modulo3_Deploy_Agent_Runtime_Guia.md # Guia de Deploy passo a passo
-    │   ├── lab_guide.md                         # Roteiro oficial de laboratório (EN)
-    │   ├── travel_policy_agent/                 # Implementação ADK do agente
-    │   ├── tests/                               # Testes unitários, integração e eval
-    │   ├── skills/agents-cli/                   # Skill do agents-cli para deploy
-    │   └── run_vertex_eval.py                   # Script de avaliação automatizada
-    │
-    ├── cymbal-leadership-simulator/
-    │   ├── README.md                            # Resumo do simulador
-    │   └── guia_de_estudos.md                   # Arquitetura Multi-Agente & KPIs
-    │
-    └── travel-expense-analytics-agent/
-        ├── README.md                            # Visão geral do laboratório
-        ├── guia_de_estudos.md                   # Guia de Ingestão GCS & Análise AlloyDB
-        └── travel_expense_analytics_agent/      # Implementação do Agente ADK 2.0
+    ├── module0-build-launchpad-with-agentic-workflow/                        # Lab 0 (65280129)
+    ├── module1-modernizing-gcp-workloads/                                    # Lab 1.1 (65280130)
+    ├── diagnose-and-remediate-multi-region-cloud-outages/                    # Lab 1.2 (65280131 - Break-Fix)
+    ├── module1-aws-to-gcp-terraform-migration/                               # Lab 1.3 (65280132)
+    ├── module1-gemini-terminal-enterprise-workflows/                         # Lab 1.4 (65280133)
+    ├── vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/   # Lab 2.1 (65280134 + código shopping-assistant)
+    ├── module2-vulnerability-scanning-codemender/                            # Lab 2.2 (65280135)
+    ├── module2-continuous-remediation-guardrails/                            # Lab 2.3 (65280136)
+    ├── module3-build-policy-agent-adk/                                       # Lab 3.1 (65280137)
+    ├── deploy-travel-policy-agent-to-vertex-ai-agent-runtime/                # Lab 3.2 (65280138 + código travel_policy_agent)
+    ├── module3-agent-evaluation-geap/                                        # Lab 3.3 (65280139)
+    ├── cymbal-leadership-simulator/                                          # Lab 3.4 (65280140)
+    ├── module3-connect-agents-unstructured-structured-data/                  # Lab 3.5 (65280141 - Guia Arquitetural)
+    ├── travel-expense-analytics-agent/                                       # Lab 3.5 (65280141 - Código GCS + AlloyDB & Guia Hands-On)
+    ├── module3-geap-policy-agent-performance-cost-optimization/              # Lab 3.6 (65280142 - Break-Fix)
+    └── module3-challenge-lab-building-and-deploying-agentic-systems/         # Lab 3.7 (65280143 - Challenge Lab)
 ```
 
 ---
 
-## 📋 Tabela de Referência Rápida
-
-| Módulo / Laboratório | Descrição | Guias de Estudo | Código & Recursos |
-| :--- | :--- | :---: | :---: |
-| **Lab 1: Vibecode & Security** | Ciclo seguro de desenvolvimento de agentes de IA com Antigravity, TDD, STRIDE e Semgrep (`shopping-assistant`). | [📖 Guia do Lab 1](./labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/guia_de_estudos.md)<br>[🛡️ Threat Model](./labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/threat_model.md) | [`shopping-assistant/`](./labs/vibecode-and-secure-an-ai-agent-lifecycle-with-antigravity-and-tdd/shopping-assistant/) |
-| **Lab 2: Vertex AI Agent Runtime** | Deploy, empacotamento Docker e avaliação com Vertex AI EvalTask do agente corporativo (`travel_policy_agent`). | [📖 Guia de Estudos & Eval](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/guia_de_estudos.md)<br>[🚀 Guia de Deploy](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/Modulo3_Deploy_Agent_Runtime_Guia.md)<br>[📝 Lab Guide (EN)](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/lab_guide.md) | [`travel_policy_agent/`](./labs/deploy-travel-policy-agent-to-vertex-ai-agent-runtime/) |
-| **Lab 3: GCS & AlloyDB Expense Analytics** | Ingestão não estruturada de recibos com Gemini 3.6 Flash no GCS e Análise Estruturada SQL no AlloyDB PostgreSQL com conector IAM. | [📖 Guia de Ingestão & Analytics](./labs/travel-expense-analytics-agent/guia_de_estudos.md) | [`travel-expense-analytics-agent/`](./labs/travel-expense-analytics-agent/) |
-| **Módulo Avançado: Leadership Simulator** | Arquitetura Multi-Agente (Diretor de Cenário + Avaliador), Leadership Workspace UI e KPIs dinâmicos. | [📖 Guia de Arquitetura](./labs/cymbal-leadership-simulator/guia_de_estudos.md) | [`cymbal-leadership-simulator/`](./labs/cymbal-leadership-simulator/) |
-
----
-
-### 📌 Conteúdos Abordados:
-- **Agentes de IA (ADK 2.0 & Gemini SDK)**: Construção com `google-adk`, `google-genai`, `agents-cli` e modelos Gemini 3.6/3.8 Flash.
-- **Bancos de Dados & Armazenamento**: Google Cloud Storage (Ingestão Multimodal PNG/PDF), AlloyDB PostgreSQL (Conector `google-cloud-alloydb-connector` com IAM & IP Público).
-- **Sistemas Multi-Agentes**: Orquestração entre Agente Diretor de Cenário (Agente 1) e Agente Avaliador de Talentos (Agente 2) com pontuação estruturada em JSON e mecanismo Fail-Safe.
-- **Segurança Ofensiva e Defensiva**: Modelagem de ameaças STRIDE, Semgrep, Pre-commit hooks e sanitização de inputs/outputs.
-- **Engenharia de Qualidade**: Test-Driven Development (TDD) com `pytest`, linters estáticos (`ruff`, `codespell`, `ty`).
-- **Nuvem & Serverless**: Deploy containerizado no Vertex AI Agent Runtime (`agent_runtime` / Reasoning Engine) e registro no Gemini Enterprise Platform.
-
----
-
-### 📌 Como navegar:
-1. Abra o **[GUIA_DE_ESTUDOS_COMPLETO.md](./GUIA_DE_ESTUDOS_COMPLETO.md)** para uma visão geral integrada e detalhada de todo o currículo.
-2. Acesse cada laboratório dentro de [`labs/`](./labs/) para navegar pelo código-fonte, suítes de teste e instruções específicas.
+## 📌 Principais Tecnologias e Frameworks Abordados
+- **Agent Development Kit (ADK 2.0)**: `google-adk`, `google-agents-cli` e `google-genai`.
+- **Modelos de Linguagem**: Gemini 3.8 Flash, Gemini 3.6 Flash e Gemini 2.5 Flash/Pro.
+- **Runtime em Nuvem & Governança**: Google Cloud Vertex AI Agent Runtime (`agent_runtime` / Reasoning Engines), Agent Registry e Gemini Enterprise Platform (GEAP).
+- **Observabilidade & SRE**: Diagnóstico com Model Context Protocol (MCP), OpenTelemetry, Cloud Trace e Cloud Logging em ambientes multi-região.
+- **DevSecOps & Remediação**: Modelagem STRIDE, Semgrep, Pre-commit hooks, Google Cloud Model Armor e VulnHawk CodeMender.
+- **Integração de Dados & IaC**: Google Cloud Storage (extração multimodal), AlloyDB para PostgreSQL, Cloud Run, Artifact Registry e Terraform (HCL).
