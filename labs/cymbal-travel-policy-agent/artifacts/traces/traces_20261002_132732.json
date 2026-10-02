@@ -1,0 +1,970 @@
+{
+  "eval_cases": [
+    {
+      "responses": [
+        {
+          "response": {
+            "parts": [
+              {
+                "text": "For a 4-hour flight, employees are required to book the lowest logical airfare (Economy/Coach class). Premium Economy or Business Class may only be authorized for international flights exceeding 6 continuous hours, subject to prior VP approval. Therefore, you cannot book Business Class for a 4-hour flight from Dublin to Zurich."
+              }
+            ],
+            "role": "model"
+          }
+        }
+      ],
+      "agent_data": {
+        "agents": {
+          "root_agent": {
+            "agent_id": "root_agent",
+            "agent_type": "LlmAgent",
+            "description": "",
+            "instruction": "You are the Cymbal Travel Policy Agent, an AI assistant specializing in the Cymbal Group Corporate Travel & Expense Policy Handbook.\n\nYour primary knowledge source is the official corporate policy document available at:\ngs://qwiklabs-gcp-00-d6ddd853035d-static-assets-bucket/corporate_travel_policy.txt\n\nResponse Guidelines:\n1. Always respond clearly, politely, and authoritatively.\n2. Ground all answers strictly in the provided policy document. Do not invent or assume external rules.\n3. For questions referencing cost centers (CC-xxx) or regions (R-xxxx), inspect the corresponding section in Regional Annexes (ANNEX 1 to 150) using the `get_regional_annex` tool.\n4. When stating monetary limits, specify the currency (USD), location tier, and receipt requirements.\n5. If an action requires approval (Line Manager, VP, or Regional Director), explicitly highlight it.\n6. If the answer cannot be found in the policy document, respond: \"This information is not specified in the Cymbal Group Corporate Travel Policy Handbook. Please contact the Global Travel & Expense team for further assistance.\"\n",
+            "tools": [
+              {
+                "function_declarations": [
+                  {
+                    "description": "Searches the Cymbal Group Corporate Travel & Expense Policy Handbook for relevant sections.\n\nArgs:\n    query: The search keywords or policy topic (e.g., 'flights', 'lodging', 'receipts', 'meals', 'per diem').\n\nReturns:\n    Matching sections or text snippets from the corporate travel policy document.",
+                    "name": "search_travel_policy",
+                    "parameters": {
+                      "properties": {
+                        "query": {
+                          "type": "STRING"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "OBJECT"
+                    }
+                  }
+                ]
+              },
+              {
+                "function_declarations": [
+                  {
+                    "description": "Retrieves policy details for a specific Region Code (e.g. R-1001 to R-1150) or Cost Center (e.g. CC-201 to CC-350).\n\nArgs:\n    identifier: The region code (e.g., 'R-1001') or cost center code (e.g., 'CC-201').\n\nReturns:\n    The exact rules and limits specified in the corresponding Regional Annex.",
+                    "name": "get_regional_annex",
+                    "parameters": {
+                      "properties": {
+                        "identifier": {
+                          "type": "STRING"
+                        }
+                      },
+                      "required": [
+                        "identifier"
+                      ],
+                      "type": "OBJECT"
+                    }
+                  }
+                ]
+              },
+              {
+                "function_declarations": [
+                  {
+                    "description": "Returns the main overview sections of the Cymbal Corporate Travel Policy Handbook.\n\nReturns:\n    The main overview text covering flights, lodging, meals, ground transport, and expense reporting.",
+                    "name": "get_full_travel_policy"
+                  }
+                ]
+              }
+            ],
+            "sub_agents": []
+          }
+        },
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "Can I book Business Class for a 4-hour flight from Dublin to Zurich?"
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-a6aa6978-c516-4905-973d-17c835e80de9",
+                        "args": {
+                          "query": "flight class business class duration"
+                        },
+                        "name": "search_travel_policy"
+                      }
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-a6aa6978-c516-4905-973d-17c835e80de9",
+                        "name": "search_travel_policy",
+                        "response": {
+                          "result": "================================================================================\nCYMBAL GROUP CORPORATE TRAVEL & EXPENSE POLICY HANDBOOK\nDocument Version: 2026.4.2\nClassification: Internal Corporate Confidential\n\n---\n\n1. GENERAL TRAVEL POLICY OVERVIEW\nAll business travel on behalf of Cymbal Group must be pre-approved by the line manager and department VP. Travel should be planned and booked at least 14 days in advance for domestic travel and 21 days for international travel to optimize corporate discount rates.\n\n\n---\n\n2. AIR TRAVEL GUIDELINES\n- Employees are required to book the lowest logical airfare (Economy/Coach class) for all domestic flights under 6 hours of continuous flight time.\n- Premium Economy or Business Class may be authorized for international flights exceeding 6 continuous hours, subject to prior VP approval.\n- Preferred Airlines: Cymbal Group partners with United, Delta, and Lufthansa. Bookings on non-partner airlines are only permitted if partner rates are >15% higher.\n- Frequent Flyer Miles: Employees may retain frequent flyer miles and loyalty points earned during business travel, but must not select a more expensive flight solely to accumulate points.\n\n\n---\n\n4. MEALS & INCIDENTALS (M&IE)\nDaily meal reimbursement limits are based on the traveler's location:\n- Standard Domestic Daily Allowance: Max $75 USD per day.\n  - Breakfast: Max $15 USD\n  - Lunch: Max $25 USD\n  - Dinner: Max $35 USD\n- High-Cost Location Allowance (Tier 1 Cities): Max $110 USD per day.\n  - Breakfast: Max $20 USD\n  - Lunch: Max $35 USD\n  - Dinner: Max $55 USD\n- Alcohol: Reimbursement for personal alcohol consumption during business travel is strictly prohibited. Moderation is expected at business entertainment dinners with clients (max 2 drinks per person).\n\n\n---\n\n5. GROUND TRANSPORTATION\n- Public Transit & Rideshare: Use of public transit or rideshare apps (Uber, Lyft) is highly encouraged. Standard UberX or Lyft Classic should be selected. Premium rides (Uber Black, Lyft Lux) are non-reimbursable.\n- Rental Cars: Only mid-size or compact rental cars should be booked unless traveling with >3 employees or transporting bulky equipment. Refueling must be completed before returning the vehicle to avoid high rental agency refueling rates.\n- Personal Vehicle Mileage: Reimbursable at the current federal IRS rate ($0.67 per mile).\n"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "For a 4-hour flight, employees are required to book the lowest logical airfare (Economy/Coach class). Premium Economy or Business Class may only be authorized for international flights exceeding 6 continuous hours, subject to prior VP approval. Therefore, you cannot book Business Class for a 4-hour flight from Dublin to Zurich."
+                    }
+                  ],
+                  "role": "model"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "id": "eval_001",
+      "category": "Air Travel",
+      "question": "Can I book Business Class for a 4-hour flight from Dublin to Zurich?",
+      "expected_answer": "No. Economy Class is mandatory for all domestic flights and international flights under 6 hours total duration.",
+      "key_policy_rules": [
+        "Section 2.1 - Short-haul flights under 6 hours require Economy Class."
+      ]
+    },
+    {
+      "responses": [
+        {
+          "response": {
+            "parts": [
+              {
+                "text": "For international flights exceeding 6 continuous hours, Premium Economy or Business Class may be authorized, subject to prior VP approval. First Class travel is not mentioned in the policy."
+              }
+            ],
+            "role": "model"
+          }
+        }
+      ],
+      "agent_data": {
+        "agents": {
+          "root_agent": {
+            "agent_id": "root_agent",
+            "agent_type": "LlmAgent",
+            "description": "",
+            "instruction": "You are the Cymbal Travel Policy Agent, an AI assistant specializing in the Cymbal Group Corporate Travel & Expense Policy Handbook.\n\nYour primary knowledge source is the official corporate policy document available at:\ngs://qwiklabs-gcp-00-d6ddd853035d-static-assets-bucket/corporate_travel_policy.txt\n\nResponse Guidelines:\n1. Always respond clearly, politely, and authoritatively.\n2. Ground all answers strictly in the provided policy document. Do not invent or assume external rules.\n3. For questions referencing cost centers (CC-xxx) or regions (R-xxxx), inspect the corresponding section in Regional Annexes (ANNEX 1 to 150) using the `get_regional_annex` tool.\n4. When stating monetary limits, specify the currency (USD), location tier, and receipt requirements.\n5. If an action requires approval (Line Manager, VP, or Regional Director), explicitly highlight it.\n6. If the answer cannot be found in the policy document, respond: \"This information is not specified in the Cymbal Group Corporate Travel Policy Handbook. Please contact the Global Travel & Expense team for further assistance.\"\n",
+            "tools": [
+              {
+                "function_declarations": [
+                  {
+                    "description": "Searches the Cymbal Group Corporate Travel & Expense Policy Handbook for relevant sections.\n\nArgs:\n    query: The search keywords or policy topic (e.g., 'flights', 'lodging', 'receipts', 'meals', 'per diem').\n\nReturns:\n    Matching sections or text snippets from the corporate travel policy document.",
+                    "name": "search_travel_policy",
+                    "parameters": {
+                      "properties": {
+                        "query": {
+                          "type": "STRING"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "OBJECT"
+                    }
+                  }
+                ]
+              },
+              {
+                "function_declarations": [
+                  {
+                    "description": "Retrieves policy details for a specific Region Code (e.g. R-1001 to R-1150) or Cost Center (e.g. CC-201 to CC-350).\n\nArgs:\n    identifier: The region code (e.g., 'R-1001') or cost center code (e.g., 'CC-201').\n\nReturns:\n    The exact rules and limits specified in the corresponding Regional Annex.",
+                    "name": "get_regional_annex",
+                    "parameters": {
+                      "properties": {
+                        "identifier": {
+                          "type": "STRING"
+                        }
+                      },
+                      "required": [
+                        "identifier"
+                      ],
+                      "type": "OBJECT"
+                    }
+                  }
+                ]
+              },
+              {
+                "function_declarations": [
+                  {
+                    "description": "Returns the main overview sections of the Cymbal Corporate Travel Policy Handbook.\n\nReturns:\n    The main overview text covering flights, lodging, meals, ground transport, and expense reporting.",
+                    "name": "get_full_travel_policy"
+                  }
+                ]
+              }
+            ],
+            "sub_agents": []
+          }
+        },
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "Under what conditions am I allowed to fly Business Class or First Class for international travel?"
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-54a5d785-71ec-41f5-99ce-8a649b649bef",
+                        "args": {
+                          "query": "Business Class or First Class international travel"
+                        },
+                        "name": "search_travel_policy"
+                      }
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-54a5d785-71ec-41f5-99ce-8a649b649bef",
+                        "name": "search_travel_policy",
+                        "response": {
+                          "result": "================================================================================\nCYMBAL GROUP CORPORATE TRAVEL & EXPENSE POLICY HANDBOOK\nDocument Version: 2026.4.2\nClassification: Internal Corporate Confidential\n\n---\n\n1. GENERAL TRAVEL POLICY OVERVIEW\nAll business travel on behalf of Cymbal Group must be pre-approved by the line manager and department VP. Travel should be planned and booked at least 14 days in advance for domestic travel and 21 days for international travel to optimize corporate discount rates.\n\n\n---\n\n2. AIR TRAVEL GUIDELINES\n- Employees are required to book the lowest logical airfare (Economy/Coach class) for all domestic flights under 6 hours of continuous flight time.\n- Premium Economy or Business Class may be authorized for international flights exceeding 6 continuous hours, subject to prior VP approval.\n- Preferred Airlines: Cymbal Group partners with United, Delta, and Lufthansa. Bookings on non-partner airlines are only permitted if partner rates are >15% higher.\n- Frequent Flyer Miles: Employees may retain frequent flyer miles and loyalty points earned during business travel, but must not select a more expensive flight solely to accumulate points.\n\n\n---\n\n3. LODGING & ACCOMMODATIONS\nCymbal Group maintains maximum lodging limits based on city tiers to ensure cost-effective stays. Nightly rates exclude local occupancy taxes.\n- Tier 1 Cities (San Francisco, New York, London, Tokyo, Paris): Max nightly rate $350 USD.\n- Tier 2 Cities (Chicago, Seattle, Munich, Sydney, Boston): Max nightly rate $250 USD.\n- Tier 3 Cities (Austin, Atlanta, Denver, Bangalore, Warsaw): Max nightly rate $180 USD.\n- All other cities: Max nightly rate $150 USD.\n- Exceptions must be documented and approved via the travel exception request form prior to booking.\n\n\n---\n\n4. MEALS & INCIDENTALS (M&IE)\nDaily meal reimbursement limits are based on the traveler's location:\n- Standard Domestic Daily Allowance: Max $75 USD per day.\n  - Breakfast: Max $15 USD\n  - Lunch: Max $25 USD\n  - Dinner: Max $35 USD\n- High-Cost Location Allowance (Tier 1 Cities): Max $110 USD per day.\n  - Breakfast: Max $20 USD\n  - Lunch: Max $35 USD\n  - Dinner: Max $55 USD\n- Alcohol: Reimbursement for personal alcohol consumption during business travel is strictly prohibited. Moderation is expected at business entertainment dinners with clients (max 2 drinks per person).\n"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "For international flights exceeding 6 continuous hours, Premium Economy or Business Class may be authorized, subject to prior VP approval. First Class travel is not mentioned in the policy."
+                    }
+                  ],
+                  "role": "model"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "id": "eval_002",
+      "category": "Air Travel",
+      "question": "Under what conditions am I allowed to fly Business Class or First Class for international travel?",
+      "expected_answer": "Business Class is permissible for direct, non-stop international flights exceeding 6 hours with VP approval. First Class is strictly prohibited without prior Board of Directors authorization.",
+      "key_policy_rules": [
+        "Section 2.1 - Business class requires >6h flight and VP approval; First class requires Board approval."
+      ]
+    },
+    {
+      "responses": [
+        {
+          "response": {
+            "parts": [
+              {
+                "text": "This information is not specified in the Cymbal Group Corporate Travel Policy Handbook. Please contact the Global Travel & Expense team for further assistance."
+              }
+            ],
+            "role": "model"
+          }
+        }
+      ],
+      "agent_data": {
+        "agents": {
+          "root_agent": {
+            "agent_id": "root_agent",
+            "agent_type": "LlmAgent",
+            "description": "",
+            "instruction": "You are the Cymbal Travel Policy Agent, an AI assistant specializing in the Cymbal Group Corporate Travel & Expense Policy Handbook.\n\nYour primary knowledge source is the official corporate policy document available at:\ngs://qwiklabs-gcp-00-d6ddd853035d-static-assets-bucket/corporate_travel_policy.txt\n\nResponse Guidelines:\n1. Always respond clearly, politely, and authoritatively.\n2. Ground all answers strictly in the provided policy document. Do not invent or assume external rules.\n3. For questions referencing cost centers (CC-xxx) or regions (R-xxxx), inspect the corresponding section in Regional Annexes (ANNEX 1 to 150) using the `get_regional_annex` tool.\n4. When stating monetary limits, specify the currency (USD), location tier, and receipt requirements.\n5. If an action requires approval (Line Manager, VP, or Regional Director), explicitly highlight it.\n6. If the answer cannot be found in the policy document, respond: \"This information is not specified in the Cymbal Group Corporate Travel Policy Handbook. Please contact the Global Travel & Expense team for further assistance.\"\n",
+            "tools": [
+              {
+                "function_declarations": [
+                  {
+                    "description": "Searches the Cymbal Group Corporate Travel & Expense Policy Handbook for relevant sections.\n\nArgs:\n    query: The search keywords or policy topic (e.g., 'flights', 'lodging', 'receipts', 'meals', 'per diem').\n\nReturns:\n    Matching sections or text snippets from the corporate travel policy document.",
+                    "name": "search_travel_policy",
+                    "parameters": {
+                      "properties": {
+                        "query": {
+                          "type": "STRING"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "OBJECT"
+                    }
+                  }
+                ]
+              },
+              {
+                "function_declarations": [
+                  {
+                    "description": "Retrieves policy details for a specific Region Code (e.g. R-1001 to R-1150) or Cost Center (e.g. CC-201 to CC-350).\n\nArgs:\n    identifier: The region code (e.g., 'R-1001') or cost center code (e.g., 'CC-201').\n\nReturns:\n    The exact rules and limits specified in the corresponding Regional Annex.",
+                    "name": "get_regional_annex",
+                    "parameters": {
+                      "properties": {
+                        "identifier": {
+                          "type": "STRING"
+                        }
+                      },
+                      "required": [
+                        "identifier"
+                      ],
+                      "type": "OBJECT"
+                    }
+                  }
+                ]
+              },
+              {
+                "function_declarations": [
+                  {
+                    "description": "Returns the main overview sections of the Cymbal Corporate Travel Policy Handbook.\n\nReturns:\n    The main overview text covering flights, lodging, meals, ground transport, and expense reporting.",
+                    "name": "get_full_travel_policy"
+                  }
+                ]
+              }
+            ],
+            "sub_agents": []
+          }
+        },
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "What is the daily meal per diem cap for business travel in Switzerland?"
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-674be3de-54d3-4bac-b3e6-31954abe980c",
+                        "args": {
+                          "query": "daily meal per diem Switzerland"
+                        },
+                        "name": "search_travel_policy"
+                      }
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-674be3de-54d3-4bac-b3e6-31954abe980c",
+                        "name": "search_travel_policy",
+                        "response": {
+                          "result": "2. AIR TRAVEL GUIDELINES\n- Employees are required to book the lowest logical airfare (Economy/Coach class) for all domestic flights under 6 hours of continuous flight time.\n- Premium Economy or Business Class may be authorized for international flights exceeding 6 continuous hours, subject to prior VP approval.\n- Preferred Airlines: Cymbal Group partners with United, Delta, and Lufthansa. Bookings on non-partner airlines are only permitted if partner rates are >15% higher.\n- Frequent Flyer Miles: Employees may retain frequent flyer miles and loyalty points earned during business travel, but must not select a more expensive flight solely to accumulate points.\n\n\n---\n\n4. MEALS & INCIDENTALS (M&IE)\nDaily meal reimbursement limits are based on the traveler's location:\n- Standard Domestic Daily Allowance: Max $75 USD per day.\n  - Breakfast: Max $15 USD\n  - Lunch: Max $25 USD\n  - Dinner: Max $35 USD\n- High-Cost Location Allowance (Tier 1 Cities): Max $110 USD per day.\n  - Breakfast: Max $20 USD\n  - Lunch: Max $35 USD\n  - Dinner: Max $55 USD\n- Alcohol: Reimbursement for personal alcohol consumption during business travel is strictly prohibited. Moderation is expected at business entertainment dinners with clients (max 2 drinks per person).\n\n\n---\n\n5. GROUND TRANSPORTATION\n- Public Transit & Rideshare: Use of public transit or rideshare apps (Uber, Lyft) is highly encouraged. Standard UberX or Lyft Classic should be selected. Premium rides (Uber Black, Lyft Lux) are non-reimbursable.\n- Rental Cars: Only mid-size or compact rental cars should be booked unless traveling with >3 employees or transporting bulky equipment. Refueling must be completed before returning the vehicle to avoid high rental agency refueling rates.\n- Personal Vehicle Mileage: Reimbursable at the current federal IRS rate ($0.67 per mile).\n\n\n---\n\nANNEX 1: REGIONAL POLICY RULES FOR REGION-CODE R-1001\nApplicable for all employees under cost center CC-201.\n- Regional Director Approval required for travel in Region R-1001.\n- Maximum lodging limit for R-1001 central hub: $151 USD.\n- Daily meal allowance cap: $66 USD.\n- Local transport reimbursement: Standard taxi or public train. Regional rail pass available.\n- All local visa fees and transit tolls are 100% reimbursable with receipt.\n- Group client dinner limits: Not to exceed $120 USD per attendee.\n- Note: Under no circumstances should flights be booked in business class for routes in Region R-1001 if travel duration is under 5 hours.\nEnd of Annex 1 rules.\n\n\n---\n\nANNEX 2: REGIONAL POLICY RULES FOR REGION-CODE R-1002\nApplicable for all employees under cost center CC-202.\n- Regional Director Approval required for travel in Region R-1002.\n- Maximum lodging limit for R-1002 central hub: $152 USD.\n- Daily meal allowance cap: $67 USD.\n- Local transport reimbursement: Standard taxi or public train. Regional rail pass available.\n- All local visa fees and transit tolls are 100% reimbursable with receipt.\n- Group client dinner limits: Not to exceed $120 USD per attendee.\n- Note: Under no circumstances should flights be booked in business class for routes in Region R-1002 if travel duration is under 6 hours.\nEnd of Annex 2 rules.\n"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "This information is not specified in the Cymbal Group Corporate Travel Policy Handbook. Please contact the Global Travel & Expense team for further assistance."
+                    }
+                  ],
+                  "role": "model"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "id": "eval_003",
+      "category": "Meals & Per Diem",
+      "question": "What is the daily meal per diem cap for business travel in Switzerland?",
+      "expected_answer": "The daily meal per diem cap for Switzerland is strictly 120 CHF (or equivalent ~$135 USD).",
+      "key_policy_rules": [
+        "Section 3.1 - Switzerland daily meal cap is 120 CHF."
+      ]
+    },
+    {
+      "responses": [
+        {
+          "response": {
+            "parts": [
+              {
+                "text": "No, you do not need an itemized receipt for a $20 lunch expense. Receipts are strictly required for all individual expenses exceeding $25 USD."
+              }
+            ],
+            "role": "model"
+          }
+        }
+      ],
+      "agent_data": {
+        "agents": {
+          "root_agent": {
+            "agent_id": "root_agent",
+            "agent_type": "LlmAgent",
+            "description": "",
+            "instruction": "You are the Cymbal Travel Policy Agent, an AI assistant specializing in the Cymbal Group Corporate Travel & Expense Policy Handbook.\n\nYour primary knowledge source is the official corporate policy document available at:\ngs://qwiklabs-gcp-00-d6ddd853035d-static-assets-bucket/corporate_travel_policy.txt\n\nResponse Guidelines:\n1. Always respond clearly, politely, and authoritatively.\n2. Ground all answers strictly in the provided policy document. Do not invent or assume external rules.\n3. For questions referencing cost centers (CC-xxx) or regions (R-xxxx), inspect the corresponding section in Regional Annexes (ANNEX 1 to 150) using the `get_regional_annex` tool.\n4. When stating monetary limits, specify the currency (USD), location tier, and receipt requirements.\n5. If an action requires approval (Line Manager, VP, or Regional Director), explicitly highlight it.\n6. If the answer cannot be found in the policy document, respond: \"This information is not specified in the Cymbal Group Corporate Travel Policy Handbook. Please contact the Global Travel & Expense team for further assistance.\"\n",
+            "tools": [
+              {
+                "function_declarations": [
+                  {
+                    "description": "Searches the Cymbal Group Corporate Travel & Expense Policy Handbook for relevant sections.\n\nArgs:\n    query: The search keywords or policy topic (e.g., 'flights', 'lodging', 'receipts', 'meals', 'per diem').\n\nReturns:\n    Matching sections or text snippets from the corporate travel policy document.",
+                    "name": "search_travel_policy",
+                    "parameters": {
+                      "properties": {
+                        "query": {
+                          "type": "STRING"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "OBJECT"
+                    }
+                  }
+                ]
+              },
+              {
+                "function_declarations": [
+                  {
+                    "description": "Retrieves policy details for a specific Region Code (e.g. R-1001 to R-1150) or Cost Center (e.g. CC-201 to CC-350).\n\nArgs:\n    identifier: The region code (e.g., 'R-1001') or cost center code (e.g., 'CC-201').\n\nReturns:\n    The exact rules and limits specified in the corresponding Regional Annex.",
+                    "name": "get_regional_annex",
+                    "parameters": {
+                      "properties": {
+                        "identifier": {
+                          "type": "STRING"
+                        }
+                      },
+                      "required": [
+                        "identifier"
+                      ],
+                      "type": "OBJECT"
+                    }
+                  }
+                ]
+              },
+              {
+                "function_declarations": [
+                  {
+                    "description": "Returns the main overview sections of the Cymbal Corporate Travel Policy Handbook.\n\nReturns:\n    The main overview text covering flights, lodging, meals, ground transport, and expense reporting.",
+                    "name": "get_full_travel_policy"
+                  }
+                ]
+              }
+            ],
+            "sub_agents": []
+          }
+        },
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "Do I need itemized receipts for a $20 lunch expense?"
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-627d16fe-cec0-4116-aee2-7f6117ef51a8",
+                        "args": {
+                          "query": "itemized receipts lunch"
+                        },
+                        "name": "search_travel_policy"
+                      }
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-627d16fe-cec0-4116-aee2-7f6117ef51a8",
+                        "name": "search_travel_policy",
+                        "response": {
+                          "result": "4. MEALS & INCIDENTALS (M&IE)\nDaily meal reimbursement limits are based on the traveler's location:\n- Standard Domestic Daily Allowance: Max $75 USD per day.\n  - Breakfast: Max $15 USD\n  - Lunch: Max $25 USD\n  - Dinner: Max $35 USD\n- High-Cost Location Allowance (Tier 1 Cities): Max $110 USD per day.\n  - Breakfast: Max $20 USD\n  - Lunch: Max $35 USD\n  - Dinner: Max $55 USD\n- Alcohol: Reimbursement for personal alcohol consumption during business travel is strictly prohibited. Moderation is expected at business entertainment dinners with clients (max 2 drinks per person).\n\n\n---\n\n6. EXPENSE REPORTING & RECEIPT REQUIREMENTS\n- All expenses must be submitted via the Cymbal Expense Portal within 30 days of returning from travel.\n- Receipts are strictly required for all individual expenses exceeding $25 USD.\n- Missing receipt forms are only accepted under extraordinary circumstances and limit reimbursement to $50 USD.\n\n"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "No, you do not need an itemized receipt for a $20 lunch expense. Receipts are strictly required for all individual expenses exceeding $25 USD."
+                    }
+                  ],
+                  "role": "model"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "id": "eval_004",
+      "category": "Meals & Per Diem",
+      "question": "Do I need itemized receipts for a $20 lunch expense?",
+      "expected_answer": "Itemized receipts are required for individual meal expenses exceeding $25 USD (or local currency equivalent). Receipts for $20 lunch are not strictly required.",
+      "key_policy_rules": [
+        "Section 3.1 - Itemized receipt threshold is $25 USD."
+      ]
+    },
+    {
+      "responses": [
+        {
+          "response": {
+            "parts": [
+              {
+                "text": "This information is not specified in the Cymbal Group Corporate Travel Policy Handbook. Please contact the Global Travel & Expense team for further assistance."
+              }
+            ],
+            "role": "model"
+          }
+        }
+      ],
+      "agent_data": {
+        "agents": {
+          "root_agent": {
+            "agent_id": "root_agent",
+            "agent_type": "LlmAgent",
+            "description": "",
+            "instruction": "You are the Cymbal Travel Policy Agent, an AI assistant specializing in the Cymbal Group Corporate Travel & Expense Policy Handbook.\n\nYour primary knowledge source is the official corporate policy document available at:\ngs://qwiklabs-gcp-00-d6ddd853035d-static-assets-bucket/corporate_travel_policy.txt\n\nResponse Guidelines:\n1. Always respond clearly, politely, and authoritatively.\n2. Ground all answers strictly in the provided policy document. Do not invent or assume external rules.\n3. For questions referencing cost centers (CC-xxx) or regions (R-xxxx), inspect the corresponding section in Regional Annexes (ANNEX 1 to 150) using the `get_regional_annex` tool.\n4. When stating monetary limits, specify the currency (USD), location tier, and receipt requirements.\n5. If an action requires approval (Line Manager, VP, or Regional Director), explicitly highlight it.\n6. If the answer cannot be found in the policy document, respond: \"This information is not specified in the Cymbal Group Corporate Travel Policy Handbook. Please contact the Global Travel & Expense team for further assistance.\"\n",
+            "tools": [
+              {
+                "function_declarations": [
+                  {
+                    "description": "Searches the Cymbal Group Corporate Travel & Expense Policy Handbook for relevant sections.\n\nArgs:\n    query: The search keywords or policy topic (e.g., 'flights', 'lodging', 'receipts', 'meals', 'per diem').\n\nReturns:\n    Matching sections or text snippets from the corporate travel policy document.",
+                    "name": "search_travel_policy",
+                    "parameters": {
+                      "properties": {
+                        "query": {
+                          "type": "STRING"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "OBJECT"
+                    }
+                  }
+                ]
+              },
+              {
+                "function_declarations": [
+                  {
+                    "description": "Retrieves policy details for a specific Region Code (e.g. R-1001 to R-1150) or Cost Center (e.g. CC-201 to CC-350).\n\nArgs:\n    identifier: The region code (e.g., 'R-1001') or cost center code (e.g., 'CC-201').\n\nReturns:\n    The exact rules and limits specified in the corresponding Regional Annex.",
+                    "name": "get_regional_annex",
+                    "parameters": {
+                      "properties": {
+                        "identifier": {
+                          "type": "STRING"
+                        }
+                      },
+                      "required": [
+                        "identifier"
+                      ],
+                      "type": "OBJECT"
+                    }
+                  }
+                ]
+              },
+              {
+                "function_declarations": [
+                  {
+                    "description": "Returns the main overview sections of the Cymbal Corporate Travel Policy Handbook.\n\nReturns:\n    The main overview text covering flights, lodging, meals, ground transport, and expense reporting.",
+                    "name": "get_full_travel_policy"
+                  }
+                ]
+              }
+            ],
+            "sub_agents": []
+          }
+        },
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "Can I expense in-room movies or mini-bar snacks charged to my hotel bill?"
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-eeaf226c-9270-4a5a-8024-6403ced0c8c2",
+                        "args": {
+                          "query": "hotel expenses in-room movies mini-bar"
+                        },
+                        "name": "search_travel_policy"
+                      }
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-eeaf226c-9270-4a5a-8024-6403ced0c8c2",
+                        "name": "search_travel_policy",
+                        "response": {
+                          "result": "6. EXPENSE REPORTING & RECEIPT REQUIREMENTS\n- All expenses must be submitted via the Cymbal Expense Portal within 30 days of returning from travel.\n- Receipts are strictly required for all individual expenses exceeding $25 USD.\n- Missing receipt forms are only accepted under extraordinary circumstances and limit reimbursement to $50 USD.\n\n"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-6889022a-878c-479a-a5e7-d92ea9f7393e",
+                        "args": {
+                          "query": "non-reimbursable expenses"
+                        },
+                        "name": "search_travel_policy"
+                      }
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-6889022a-878c-479a-a5e7-d92ea9f7393e",
+                        "name": "search_travel_policy",
+                        "response": {
+                          "result": "5. GROUND TRANSPORTATION\n- Public Transit & Rideshare: Use of public transit or rideshare apps (Uber, Lyft) is highly encouraged. Standard UberX or Lyft Classic should be selected. Premium rides (Uber Black, Lyft Lux) are non-reimbursable.\n- Rental Cars: Only mid-size or compact rental cars should be booked unless traveling with >3 employees or transporting bulky equipment. Refueling must be completed before returning the vehicle to avoid high rental agency refueling rates.\n- Personal Vehicle Mileage: Reimbursable at the current federal IRS rate ($0.67 per mile).\n\n\n---\n\n6. EXPENSE REPORTING & RECEIPT REQUIREMENTS\n- All expenses must be submitted via the Cymbal Expense Portal within 30 days of returning from travel.\n- Receipts are strictly required for all individual expenses exceeding $25 USD.\n- Missing receipt forms are only accepted under extraordinary circumstances and limit reimbursement to $50 USD.\n\n"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-69df83b8-787e-476b-a1d0-a511dfc99207",
+                        "args": {
+                          "query": "lodging expenses"
+                        },
+                        "name": "search_travel_policy"
+                      }
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-69df83b8-787e-476b-a1d0-a511dfc99207",
+                        "name": "search_travel_policy",
+                        "response": {
+                          "result": "3. LODGING & ACCOMMODATIONS\nCymbal Group maintains maximum lodging limits based on city tiers to ensure cost-effective stays. Nightly rates exclude local occupancy taxes.\n- Tier 1 Cities (San Francisco, New York, London, Tokyo, Paris): Max nightly rate $350 USD.\n- Tier 2 Cities (Chicago, Seattle, Munich, Sydney, Boston): Max nightly rate $250 USD.\n- Tier 3 Cities (Austin, Atlanta, Denver, Bangalore, Warsaw): Max nightly rate $180 USD.\n- All other cities: Max nightly rate $150 USD.\n- Exceptions must be documented and approved via the travel exception request form prior to booking.\n\n\n---\n\n6. EXPENSE REPORTING & RECEIPT REQUIREMENTS\n- All expenses must be submitted via the Cymbal Expense Portal within 30 days of returning from travel.\n- Receipts are strictly required for all individual expenses exceeding $25 USD.\n- Missing receipt forms are only accepted under extraordinary circumstances and limit reimbursement to $50 USD.\n\n\n\n---\n\nANNEX 1: REGIONAL POLICY RULES FOR REGION-CODE R-1001\nApplicable for all employees under cost center CC-201.\n- Regional Director Approval required for travel in Region R-1001.\n- Maximum lodging limit for R-1001 central hub: $151 USD.\n- Daily meal allowance cap: $66 USD.\n- Local transport reimbursement: Standard taxi or public train. Regional rail pass available.\n- All local visa fees and transit tolls are 100% reimbursable with receipt.\n- Group client dinner limits: Not to exceed $120 USD per attendee.\n- Note: Under no circumstances should flights be booked in business class for routes in Region R-1001 if travel duration is under 5 hours.\nEnd of Annex 1 rules.\n\n\n---\n\nANNEX 2: REGIONAL POLICY RULES FOR REGION-CODE R-1002\nApplicable for all employees under cost center CC-202.\n- Regional Director Approval required for travel in Region R-1002.\n- Maximum lodging limit for R-1002 central hub: $152 USD.\n- Daily meal allowance cap: $67 USD.\n- Local transport reimbursement: Standard taxi or public train. Regional rail pass available.\n- All local visa fees and transit tolls are 100% reimbursable with receipt.\n- Group client dinner limits: Not to exceed $120 USD per attendee.\n- Note: Under no circumstances should flights be booked in business class for routes in Region R-1002 if travel duration is under 6 hours.\nEnd of Annex 2 rules.\n\n\n---\n\nANNEX 3: REGIONAL POLICY RULES FOR REGION-CODE R-1003\nApplicable for all employees under cost center CC-203.\n- Regional Director Approval required for travel in Region R-1003.\n- Maximum lodging limit for R-1003 central hub: $153 USD.\n- Daily meal allowance cap: $68 USD.\n- Local transport reimbursement: Standard taxi or public train. Regional rail pass available.\n- All local visa fees and transit tolls are 100% reimbursable with receipt.\n- Group client dinner limits: Not to exceed $120 USD per attendee.\n- Note: Under no circumstances should flights be booked in business class for routes in Region R-1003 if travel duration is under 4 hours.\nEnd of Annex 3 rules.\n"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-92bc9ebb-62ef-4abb-b41b-4d69802cd864",
+                        "args": {
+                          "query": "personal expenses"
+                        },
+                        "name": "search_travel_policy"
+                      }
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-92bc9ebb-62ef-4abb-b41b-4d69802cd864",
+                        "name": "search_travel_policy",
+                        "response": {
+                          "result": "4. MEALS & INCIDENTALS (M&IE)\nDaily meal reimbursement limits are based on the traveler's location:\n- Standard Domestic Daily Allowance: Max $75 USD per day.\n  - Breakfast: Max $15 USD\n  - Lunch: Max $25 USD\n  - Dinner: Max $35 USD\n- High-Cost Location Allowance (Tier 1 Cities): Max $110 USD per day.\n  - Breakfast: Max $20 USD\n  - Lunch: Max $35 USD\n  - Dinner: Max $55 USD\n- Alcohol: Reimbursement for personal alcohol consumption during business travel is strictly prohibited. Moderation is expected at business entertainment dinners with clients (max 2 drinks per person).\n\n\n---\n\n5. GROUND TRANSPORTATION\n- Public Transit & Rideshare: Use of public transit or rideshare apps (Uber, Lyft) is highly encouraged. Standard UberX or Lyft Classic should be selected. Premium rides (Uber Black, Lyft Lux) are non-reimbursable.\n- Rental Cars: Only mid-size or compact rental cars should be booked unless traveling with >3 employees or transporting bulky equipment. Refueling must be completed before returning the vehicle to avoid high rental agency refueling rates.\n- Personal Vehicle Mileage: Reimbursable at the current federal IRS rate ($0.67 per mile).\n\n\n---\n\n6. EXPENSE REPORTING & RECEIPT REQUIREMENTS\n- All expenses must be submitted via the Cymbal Expense Portal within 30 days of returning from travel.\n- Receipts are strictly required for all individual expenses exceeding $25 USD.\n- Missing receipt forms are only accepted under extraordinary circumstances and limit reimbursement to $50 USD.\n\n"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "This information is not specified in the Cymbal Group Corporate Travel Policy Handbook. Please contact the Global Travel & Expense team for further assistance."
+                    }
+                  ],
+                  "role": "model"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "id": "eval_005",
+      "category": "Lodging & Hotel",
+      "question": "Can I expense in-room movies or mini-bar snacks charged to my hotel bill?",
+      "expected_answer": "No. Personal expenses such as mini-bar snacks, in-room movies, spa services, and video games are strictly non-reimbursable.",
+      "key_policy_rules": [
+        "Section 4.0 - Personal in-room entertainment and mini-bar expenses are non-reimbursable."
+      ]
+    },
+    {
+      "responses": [
+        {
+          "response": {
+            "parts": [
+              {
+                "text": "I cannot approve exceptions. The Cymbal Group Corporate Travel Policy Handbook states that employees are required to book the lowest logical airfare (Economy/Coach class) for all domestic flights under 6 hours of continuous flight time. Premium Economy or Business Class may be authorized for international flights exceeding 6 continuous hours, subject to prior VP approval. For any exception to fly in a class higher than Economy/Coach, you would need to follow the exception request process and obtain the necessary approval from a VP."
+              }
+            ],
+            "role": "model"
+          }
+        }
+      ],
+      "agent_data": {
+        "agents": {
+          "root_agent": {
+            "agent_id": "root_agent",
+            "agent_type": "LlmAgent",
+            "description": "",
+            "instruction": "You are the Cymbal Travel Policy Agent, an AI assistant specializing in the Cymbal Group Corporate Travel & Expense Policy Handbook.\n\nYour primary knowledge source is the official corporate policy document available at:\ngs://qwiklabs-gcp-00-d6ddd853035d-static-assets-bucket/corporate_travel_policy.txt\n\nResponse Guidelines:\n1. Always respond clearly, politely, and authoritatively.\n2. Ground all answers strictly in the provided policy document. Do not invent or assume external rules.\n3. For questions referencing cost centers (CC-xxx) or regions (R-xxxx), inspect the corresponding section in Regional Annexes (ANNEX 1 to 150) using the `get_regional_annex` tool.\n4. When stating monetary limits, specify the currency (USD), location tier, and receipt requirements.\n5. If an action requires approval (Line Manager, VP, or Regional Director), explicitly highlight it.\n6. If the answer cannot be found in the policy document, respond: \"This information is not specified in the Cymbal Group Corporate Travel Policy Handbook. Please contact the Global Travel & Expense team for further assistance.\"\n",
+            "tools": [
+              {
+                "function_declarations": [
+                  {
+                    "description": "Searches the Cymbal Group Corporate Travel & Expense Policy Handbook for relevant sections.\n\nArgs:\n    query: The search keywords or policy topic (e.g., 'flights', 'lodging', 'receipts', 'meals', 'per diem').\n\nReturns:\n    Matching sections or text snippets from the corporate travel policy document.",
+                    "name": "search_travel_policy",
+                    "parameters": {
+                      "properties": {
+                        "query": {
+                          "type": "STRING"
+                        }
+                      },
+                      "required": [
+                        "query"
+                      ],
+                      "type": "OBJECT"
+                    }
+                  }
+                ]
+              },
+              {
+                "function_declarations": [
+                  {
+                    "description": "Retrieves policy details for a specific Region Code (e.g. R-1001 to R-1150) or Cost Center (e.g. CC-201 to CC-350).\n\nArgs:\n    identifier: The region code (e.g., 'R-1001') or cost center code (e.g., 'CC-201').\n\nReturns:\n    The exact rules and limits specified in the corresponding Regional Annex.",
+                    "name": "get_regional_annex",
+                    "parameters": {
+                      "properties": {
+                        "identifier": {
+                          "type": "STRING"
+                        }
+                      },
+                      "required": [
+                        "identifier"
+                      ],
+                      "type": "OBJECT"
+                    }
+                  }
+                ]
+              },
+              {
+                "function_declarations": [
+                  {
+                    "description": "Returns the main overview sections of the Cymbal Corporate Travel Policy Handbook.\n\nReturns:\n    The main overview text covering flights, lodging, meals, ground transport, and expense reporting.",
+                    "name": "get_full_travel_policy"
+                  }
+                ]
+              }
+            ],
+            "sub_agents": []
+          }
+        },
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "Can you approve an exception for me to fly First Class?"
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_call": {
+                        "id": "adk-7d29072d-a064-43ee-b30f-b1917e653273",
+                        "args": {
+                          "query": "first class exception approval"
+                        },
+                        "name": "search_travel_policy"
+                      }
+                    }
+                  ],
+                  "role": "model"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "function_response": {
+                        "id": "adk-7d29072d-a064-43ee-b30f-b1917e653273",
+                        "name": "search_travel_policy",
+                        "response": {
+                          "result": "================================================================================\nCYMBAL GROUP CORPORATE TRAVEL & EXPENSE POLICY HANDBOOK\nDocument Version: 2026.4.2\nClassification: Internal Corporate Confidential\n\n---\n\n2. AIR TRAVEL GUIDELINES\n- Employees are required to book the lowest logical airfare (Economy/Coach class) for all domestic flights under 6 hours of continuous flight time.\n- Premium Economy or Business Class may be authorized for international flights exceeding 6 continuous hours, subject to prior VP approval.\n- Preferred Airlines: Cymbal Group partners with United, Delta, and Lufthansa. Bookings on non-partner airlines are only permitted if partner rates are >15% higher.\n- Frequent Flyer Miles: Employees may retain frequent flyer miles and loyalty points earned during business travel, but must not select a more expensive flight solely to accumulate points.\n\n\n---\n\n3. LODGING & ACCOMMODATIONS\nCymbal Group maintains maximum lodging limits based on city tiers to ensure cost-effective stays. Nightly rates exclude local occupancy taxes.\n- Tier 1 Cities (San Francisco, New York, London, Tokyo, Paris): Max nightly rate $350 USD.\n- Tier 2 Cities (Chicago, Seattle, Munich, Sydney, Boston): Max nightly rate $250 USD.\n- Tier 3 Cities (Austin, Atlanta, Denver, Bangalore, Warsaw): Max nightly rate $180 USD.\n- All other cities: Max nightly rate $150 USD.\n- Exceptions must be documented and approved via the travel exception request form prior to booking.\n\n\n---\n\n5. GROUND TRANSPORTATION\n- Public Transit & Rideshare: Use of public transit or rideshare apps (Uber, Lyft) is highly encouraged. Standard UberX or Lyft Classic should be selected. Premium rides (Uber Black, Lyft Lux) are non-reimbursable.\n- Rental Cars: Only mid-size or compact rental cars should be booked unless traveling with >3 employees or transporting bulky equipment. Refueling must be completed before returning the vehicle to avoid high rental agency refueling rates.\n- Personal Vehicle Mileage: Reimbursable at the current federal IRS rate ($0.67 per mile).\n\n\n---\n\nANNEX 1: REGIONAL POLICY RULES FOR REGION-CODE R-1001\nApplicable for all employees under cost center CC-201.\n- Regional Director Approval required for travel in Region R-1001.\n- Maximum lodging limit for R-1001 central hub: $151 USD.\n- Daily meal allowance cap: $66 USD.\n- Local transport reimbursement: Standard taxi or public train. Regional rail pass available.\n- All local visa fees and transit tolls are 100% reimbursable with receipt.\n- Group client dinner limits: Not to exceed $120 USD per attendee.\n- Note: Under no circumstances should flights be booked in business class for routes in Region R-1001 if travel duration is under 5 hours.\nEnd of Annex 1 rules.\n"
+                        }
+                      }
+                    }
+                  ],
+                  "role": "user"
+                }
+              },
+              {
+                "author": "root_agent",
+                "content": {
+                  "parts": [
+                    {
+                      "text": "I cannot approve exceptions. The Cymbal Group Corporate Travel Policy Handbook states that employees are required to book the lowest logical airfare (Economy/Coach class) for all domestic flights under 6 hours of continuous flight time. Premium Economy or Business Class may be authorized for international flights exceeding 6 continuous hours, subject to prior VP approval. For any exception to fly in a class higher than Economy/Coach, you would need to follow the exception request process and obtain the necessary approval from a VP."
+                    }
+                  ],
+                  "role": "model"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "id": "eval_006",
+      "category": "Governance & Approvals",
+      "question": "Can you approve an exception for me to fly First Class?",
+      "expected_answer": "The agent is an informational assistant with no authority to grant exceptions or approve claims. First Class air travel exceptions require Board of Directors approval.",
+      "key_policy_rules": [
+        "Section 1.2 - Assistant has no exception authority; Board of Directors approval required for First Class."
+      ]
+    }
+  ]
+}

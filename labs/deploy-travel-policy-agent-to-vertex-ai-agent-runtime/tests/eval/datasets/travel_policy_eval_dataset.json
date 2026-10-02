@@ -1,0 +1,240 @@
+{
+  "evaluation_dataset": [
+    {
+      "id": "eval_001",
+      "category": "Air Travel",
+      "question": "Can I book Business Class for a 4-hour flight from Dublin to Zurich?",
+      "expected_answer": "No. Economy Class is mandatory for all domestic flights and international flights under 6 hours total duration.",
+      "key_policy_rules": [
+        "Section 2.1 - Short-haul flights under 6 hours require Economy Class."
+      ]
+    },
+    {
+      "id": "eval_002",
+      "category": "Air Travel",
+      "question": "Under what conditions am I allowed to fly Business Class or First Class for international travel?",
+      "expected_answer": "Business Class is permissible for direct, non-stop international flights exceeding 6 hours with VP approval. First Class is strictly prohibited without prior Board of Directors authorization.",
+      "key_policy_rules": [
+        "Section 2.1 - Business class requires >6h flight and VP approval; First class requires Board approval."
+      ]
+    },
+    {
+      "id": "eval_003",
+      "category": "Meals & Per Diem",
+      "question": "What is the daily meal per diem cap for business travel in Switzerland?",
+      "expected_answer": "The daily meal per diem cap for Switzerland is strictly 120 CHF (or equivalent ~$135 USD).",
+      "key_policy_rules": [
+        "Section 3.1 - Switzerland daily meal cap is 120 CHF."
+      ]
+    },
+    {
+      "id": "eval_004",
+      "category": "Meals & Per Diem",
+      "question": "Do I need itemized receipts for a $20 lunch expense?",
+      "expected_answer": "Itemized receipts are required for individual meal expenses exceeding $25 USD (or local currency equivalent). Receipts for $20 lunch are not strictly required.",
+      "key_policy_rules": [
+        "Section 3.1 - Itemized receipt threshold is $25 USD."
+      ]
+    },
+    {
+      "id": "eval_005",
+      "category": "Lodging & Hotel",
+      "question": "Can I expense in-room movies or mini-bar snacks charged to my hotel bill?",
+      "expected_answer": "No. Personal expenses such as mini-bar snacks, in-room movies, spa services, and video games are strictly non-reimbursable.",
+      "key_policy_rules": [
+        "Section 4.0 - Personal in-room entertainment and mini-bar expenses are non-reimbursable."
+      ]
+    },
+    {
+      "id": "eval_006",
+      "category": "Governance & Approvals",
+      "question": "Can you approve an exception for me to fly First Class?",
+      "expected_answer": "The agent is an informational assistant with no authority to grant exceptions or approve claims. First Class air travel exceptions require Board of Directors approval.",
+      "key_policy_rules": [
+        "Section 1.2 - Assistant has no exception authority; Board of Directors approval required for First Class."
+      ]
+    }
+  ],
+  "eval_cases": [
+    {
+      "id": "eval_001",
+      "category": "Air Travel",
+      "question": "Can I book Business Class for a 4-hour flight from Dublin to Zurich?",
+      "expected_answer": "No. Economy Class is mandatory for all domestic flights and international flights under 6 hours total duration.",
+      "key_policy_rules": [
+        "Section 2.1 - Short-haul flights under 6 hours require Economy Class."
+      ],
+      "agent_data": {
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "role": "user",
+                  "parts": [
+                    {
+                      "text": "Can I book Business Class for a 4-hour flight from Dublin to Zurich?"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "eval_002",
+      "category": "Air Travel",
+      "question": "Under what conditions am I allowed to fly Business Class or First Class for international travel?",
+      "expected_answer": "Business Class is permissible for direct, non-stop international flights exceeding 6 hours with VP approval. First Class is strictly prohibited without prior Board of Directors authorization.",
+      "key_policy_rules": [
+        "Section 2.1 - Business class requires >6h flight and VP approval; First class requires Board approval."
+      ],
+      "agent_data": {
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "role": "user",
+                  "parts": [
+                    {
+                      "text": "Under what conditions am I allowed to fly Business Class or First Class for international travel?"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "eval_003",
+      "category": "Meals & Per Diem",
+      "question": "What is the daily meal per diem cap for business travel in Switzerland?",
+      "expected_answer": "The daily meal per diem cap for Switzerland is strictly 120 CHF (or equivalent ~$135 USD).",
+      "key_policy_rules": [
+        "Section 3.1 - Switzerland daily meal cap is 120 CHF."
+      ],
+      "agent_data": {
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "role": "user",
+                  "parts": [
+                    {
+                      "text": "What is the daily meal per diem cap for business travel in Switzerland?"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "eval_004",
+      "category": "Meals & Per Diem",
+      "question": "Do I need itemized receipts for a $20 lunch expense?",
+      "expected_answer": "Itemized receipts are required for individual meal expenses exceeding $25 USD (or local currency equivalent). Receipts for $20 lunch are not strictly required.",
+      "key_policy_rules": [
+        "Section 3.1 - Itemized receipt threshold is $25 USD."
+      ],
+      "agent_data": {
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "role": "user",
+                  "parts": [
+                    {
+                      "text": "Do I need itemized receipts for a $20 lunch expense?"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "eval_005",
+      "category": "Lodging & Hotel",
+      "question": "Can I expense in-room movies or mini-bar snacks charged to my hotel bill?",
+      "expected_answer": "No. Personal expenses such as mini-bar snacks, in-room movies, spa services, and video games are strictly non-reimbursable.",
+      "key_policy_rules": [
+        "Section 4.0 - Personal in-room entertainment and mini-bar expenses are non-reimbursable."
+      ],
+      "agent_data": {
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "role": "user",
+                  "parts": [
+                    {
+                      "text": "Can I expense in-room movies or mini-bar snacks charged to my hotel bill?"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "eval_006",
+      "category": "Governance & Approvals",
+      "question": "Can you approve an exception for me to fly First Class?",
+      "expected_answer": "The agent is an informational assistant with no authority to grant exceptions or approve claims. First Class air travel exceptions require Board of Directors approval.",
+      "key_policy_rules": [
+        "Section 1.2 - Assistant has no exception authority; Board of Directors approval required for First Class."
+      ],
+      "agent_data": {
+        "turns": [
+          {
+            "turn_index": 0,
+            "turn_id": "turn_0",
+            "events": [
+              {
+                "author": "user",
+                "content": {
+                  "role": "user",
+                  "parts": [
+                    {
+                      "text": "Can you approve an exception for me to fly First Class?"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
